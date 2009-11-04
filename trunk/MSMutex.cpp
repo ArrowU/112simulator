@@ -67,3 +67,8 @@ void MSMutex::unlock()
 		exit(-1);
 	}
 }
+
+HANDLE MSMutex::getHandle()
+{
+	return winSemaphore;
+}

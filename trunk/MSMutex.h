@@ -20,6 +20,7 @@ public:
 	~MSMutex();
 	bool waitForUnlock(int);
 	void unlock();
+	HANDLE getHandle();
 private:
 
 };

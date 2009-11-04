@@ -213,6 +213,10 @@
 					RelativePath=".\MSMutex.cpp"
 					>
 				</File>
+				<File
+					RelativePath=".\MSSemaphore.cpp"
+					>
+				</File>
 			</Filter>
 		</Filter>
 		<Filter
@@ -257,6 +261,10 @@
 				</File>
 				<File
 					RelativePath=".\MSMutex.h"
+					>
+				</File>
+				<File
+					RelativePath=".\MSSemaphore.h"
 					>
 				</File>
 			</Filter>
