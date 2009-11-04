@@ -217,6 +217,10 @@
 					RelativePath=".\MSSemaphore.cpp"
 					>
 				</File>
+				<File
+					RelativePath=".\MSThread.cpp"
+					>
+				</File>
 			</Filter>
 		</Filter>
 		<Filter
@@ -265,6 +269,10 @@
 				</File>
 				<File
 					RelativePath=".\MSSemaphore.h"
+					>
+				</File>
+				<File
+					RelativePath=".\MSThread.h"
 					>
 				</File>
 			</Filter>
