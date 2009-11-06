@@ -8,10 +8,10 @@ class RessourceManager
 {
 	//--- Attributs ---
 	private:
-		MSBuffer<Ressource> ambulances;
-		MSBuffer<Ressource> choppers;
-		MSBuffer<Ressource> medicalisedTeams;
-		MSBuffer<Ressource> nonMedicalisedTeams;
+		MSBuffer<Ressource> *ambulances;
+		MSBuffer<Ressource> *choppers;
+		MSBuffer<Ressource> *medicalisedTeams;
+		MSBuffer<Ressource> *nonMedicalisedTeams;
 
 		//--- Méthodes ---
 	public:

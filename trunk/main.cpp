@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -18,11 +19,10 @@ void strSplit(vector<string>& vecteur, string chaine, char separateur);
 
 int main()
 {
-	cout << "Starting 112 Server !" << endl;
-
+	printf("Starting 112 Server !\n");
+	// --- Parse Arguments ---
 	// --- Start Ressource Manager ---
 	// --- Start Call Center ---
-	// --- Start Operators ---
 	// --- Start Command Line ---
 	commandLine();
 	return 0;
@@ -30,10 +30,10 @@ int main()
 
 void commandLine()
 {
-	cout<<"Welcome, please type help to view availavable commands"<<endl;
+	printf("Welcome, please type help to view availavable commands\n");
 	while(true)
 	{
-		cout<<endl<<"> ";
+		printf("\n> ");
 		string command;
 		cin>>command;
 		interpret(command);
@@ -49,13 +49,13 @@ void interpret(string command)
 		help();
 	else if(commandTokens[0].compare("exit")==0) 
 		exit();
-	else cout<<"Invalid Command, please type help to view available commands"<<endl;
+	else printf("Invalid Command, please type help to view available commands\n");
 }
 
 void help()
 {
-	cout<<endl;
-	cout<<"exit : closes the program"<<endl;
+	printf("\n");
+	printf("exit : closes the program\n");
 }
 
 void exit()

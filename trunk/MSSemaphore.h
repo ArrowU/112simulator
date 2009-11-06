@@ -6,11 +6,11 @@
 class MSSemaphore
 {
 	//--- Attributs ---
-private:
+public:
 	//--- Constantes statiques ---
 	static const int START_FULL = -1;
 	static const int START_EMPTY = 0;
-
+private:
 	//--- Autre ---
 	HANDLE winSemaphore;
 

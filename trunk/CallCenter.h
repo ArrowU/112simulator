@@ -8,9 +8,9 @@ class CallCenter
 {
 	//--- Attributs ---
 private:
-	MSBuffer<Call> nursingHomeBuffer;
-	MSBuffer<Call> schoolBuffer;
-	MSBuffer<Call> privateIndividualBuffer;
+	MSBuffer<Call> *nursingHomeBuffer;
+	MSBuffer<Call> *schoolBuffer;
+	MSBuffer<Call> *privateIndividualBuffer;
 	//--- Méthodes ---
 public:
 	CallCenter();

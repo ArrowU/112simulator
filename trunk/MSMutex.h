@@ -6,11 +6,11 @@
 class MSMutex
 {
 	//--- Attributs ---
-private:
+public:
 	//--- Constantes statiques ---
 	static const bool START_LOCKED = false;
 	static const bool START_UNLOCKED = true;
-
+private:
 	//--- Autre ---
 	HANDLE winSemaphore;
 

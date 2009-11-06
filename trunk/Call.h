@@ -17,13 +17,13 @@ class Call
 	//--- Attributs ---
 	private:
 		CallOrigin origin;
-		Operator responsibleOperator;
+		Operator *responsibleOperator;
 		int operatorCallCount;
 		int requiredChoppers;
 		int requiredAmbulances;
 		int requiredMedicalisedTeams;
 		int requiredNonMedicalisedTeams;
-		std::vector<Ressource> reservedRessources;
+		Ressource* reservedRessources;
 
 		//--- Méthodes ---
 	public:
@@ -32,7 +32,7 @@ class Call
 		~Call();
 		void setOperator(Operator);
 		Operator getOperator();
-		std::vector<Ressource> getReservedRessource();
+		Ressource* getReservedRessource();
 		void setOperatorCallCount(int);
 		int getOperatorCallCount();
 		void setRequiredChoppers(int);
