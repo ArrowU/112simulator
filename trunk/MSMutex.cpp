@@ -1,17 +1,27 @@
 #include "MSMutex.h"
 #include <stdio.h>
+#include "windows.h"
 
 
 MSMutex::MSMutex(bool startLocked=false)
 {
-	int initialCount=1;
-	if(startLocked) initialCount=0;
-	DWORD dwInitialCount = static_cast<DWORD>(initialCount);
-	winSemaphore= CreateSemaphore( 
-        NULL,           // default security attributes
-        dwInitialCount,  // initial count
-        1,  // maximum count
-        NULL);
+	if(startLocked){
+		winSemaphore= CreateSemaphore( 
+			NULL,           // default security attributes
+			0,  // initial count
+			1,  // maximum count
+			NULL);
+		//printf("Locked Semaphore created in MSMutex\n");
+	}
+	else
+	{
+		winSemaphore= CreateSemaphore( 
+			NULL,           // default security attributes
+			1,  // initial count
+			1,  // maximum count
+			NULL);
+		//printf("Unlocked Semaphore created in MSMutex\n");
+	}
 
 	if (winSemaphore == NULL) 
     {
@@ -25,7 +35,7 @@ bool MSMutex::waitForUnlock(int timeout=-1)
 	DWORD dwTimeout;
 
 	if(timeout<0) dwTimeout=INFINITE;
-	else dwTimeout=timeout;
+	else dwTimeout=static_cast<DWORD>(timeout);
 
 	DWORD dwWaitResult = WaitForSingleObject(
 		winSemaphore,

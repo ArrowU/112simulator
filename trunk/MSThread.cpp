@@ -1,6 +1,11 @@
 #include "MSThread.h"
 #include <stdio.h>
 
+MSThread::MSThread()
+{
+	m_priority=PRIORITY_NORMAL;
+}
+
 MSThread::MSThread(int priority=PRIORITY_NORMAL)
 {
 	m_priority=priority;

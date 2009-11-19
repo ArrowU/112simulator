@@ -214,6 +214,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\MSPipe.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\MSSemaphore.cpp"
 					>
 				</File>
@@ -265,6 +269,10 @@
 				</File>
 				<File
 					RelativePath=".\MSMutex.h"
+					>
+				</File>
+				<File
+					RelativePath=".\MSPipe.h"
 					>
 				</File>
 				<File

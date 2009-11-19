@@ -8,8 +8,8 @@ class MSMutex
 	//--- Attributs ---
 public:
 	//--- Constantes statiques ---
-	static const bool START_LOCKED = false;
-	static const bool START_UNLOCKED = true;
+	static const bool START_LOCKED = true;
+	static const bool START_UNLOCKED = false;
 private:
 	//--- Autre ---
 	HANDLE winSemaphore;

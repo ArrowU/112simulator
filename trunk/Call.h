@@ -2,8 +2,7 @@
 #define _CALL_H
 
 #include "Ressource.h"
-#include "Operator.h"
-#include <vector>
+//#include "Operator.h"
 
 enum CallOrigin
 {
@@ -17,7 +16,7 @@ class Call
 	//--- Attributs ---
 	private:
 		CallOrigin origin;
-		Operator *responsibleOperator;
+		int operatorId;
 		int operatorCallCount;
 		int requiredChoppers;
 		int requiredAmbulances;
@@ -30,8 +29,8 @@ class Call
 		Call(int,int,int,int);
 		Call();
 		~Call();
-		void setOperator(Operator);
-		Operator getOperator();
+		void setOperatorId(int);
+		int getOperatorId();
 		Ressource* getReservedRessource();
 		void setOperatorCallCount(int);
 		int getOperatorCallCount();

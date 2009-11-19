@@ -23,6 +23,7 @@ int main()
 	// --- Parse Arguments ---
 	// --- Start Ressource Manager ---
 	// --- Start Call Center ---
+	CallCenter* callCenter=new CallCenter();
 	// --- Start Command Line ---
 	commandLine();
 	return 0;

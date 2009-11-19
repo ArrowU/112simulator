@@ -18,7 +18,8 @@ private:
 	int m_priority;
 
 	//--- Méthodes ---
-protected:	
+protected:
+	MSThread();
 	MSThread(int); // Constructeur en protected -> classe abstraite
 	~MSThread(void);
 

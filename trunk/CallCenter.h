@@ -1,8 +1,8 @@
 #ifndef _CALLCENTER_H
 #define _CALLCENTER_H
 
-#include "MSBuffer.h"
 #include "Call.h"
+#include "MSBuffer.h"
 
 class CallCenter
 {
@@ -15,7 +15,7 @@ private:
 public:
 	CallCenter();
 	~CallCenter();
-	Call getNextCall();
+	Call* getNextCall();
 private:
 
 };

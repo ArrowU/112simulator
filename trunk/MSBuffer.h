@@ -39,24 +39,20 @@ public:
 template <class T> 
 MSBuffer<T>::MSBuffer(int size)
 {
+	//printf("Creating MSBuffer\n");
 	//queue=new std::queue<T>;
-	threadSafeLock=new MSMutex(MSMutex::START_UNLOCKED); // Le Mutex est non bloquant
+	threadSafeLock=new MSMutex(MSMutex::START_LOCKED); // Le Mutex est bloquant
 	emptyLock=new MSSemaphore(size,MSSemaphore::START_EMPTY); // Le sémaphore est bloquant lors de sa création
 	fullLock=new MSSemaphore(size,MSSemaphore::START_FULL); // Le sémaphore est non bloquant lors de sa création
-	if(threadSafeLock->waitForUnlock(0))
-	{
-		maxSize=size;
-		currentSize=0;
-		readIndex=0;
-		writeIndex=0;
-		queue= new T[size];
-	}
-	else
-	{
-		printf("Error while creating the queue in MSBuffer \n");
-        exit(-1);
-	}
+	//printf("MSBuffer Mutex and Semaphores created\n"); 
 
+	maxSize=size;
+	currentSize=0;
+	readIndex=0;
+	writeIndex=0;
+	queue= new T[size];
+
+	threadSafeLock->unlock();
 }
 
 template <class T> 
