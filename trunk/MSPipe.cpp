@@ -1,6 +1,6 @@
 #include "MSPipe.h"
 
-MSPipe::MSPipe(LPCTSTR name, int mode=READ_WRITE)
+MSPipe::MSPipe(std::string name, int mode=READ_WRITE)
 {
 	this->name=name;
 	this->mode=mode;
@@ -10,7 +10,7 @@ MSPipe::MSPipe(LPCTSTR name, int mode=READ_WRITE)
 void MSPipe::create()
 {
 	DWORD dwBufferSize=bufferSize;
-/*
+
 	//CString cName=name.c_str();
     //LPCSTR lpszPipename = name.c_str();
 
@@ -22,10 +22,9 @@ void MSPipe::create()
 	#else
 	LPCWSTR resultName = s.c_str();
 	#endif
-	*/
 
 	winPipe=CreateNamedPipe( 
-          name,             // pipe name 
+          resultName,             // pipe name 
           PIPE_ACCESS_DUPLEX,       // read/write access 
           PIPE_TYPE_MESSAGE |       // message type pipe 
           PIPE_READMODE_MESSAGE |   // message-read mode 
@@ -42,44 +41,10 @@ int MSPipe::getBufferSize()
 	return bufferSize;
 }
 
-HANDLE MSPipe::getHandle()
-{
-	return winPipe;
-}
-
-MSPipeInstance* MSPipe::connect(LPCTSTR pipeName)
-{
-	MSPipe* myPipe=new MSPipe(pipeName);
-	HANDLE myHandle = CreateFile( 
-         pipeName,   // pipe name 
-         GENERIC_READ |  // read and write access 
-         GENERIC_WRITE, 
-         0,              // no sharing 
-         NULL,           // default security attributes
-         OPEN_EXISTING,  // opens existing pipe 
-         0,              // default attributes 
-         NULL);          // no template file 
-
-	if(myHandle!=INVALID_HANDLE_VALUE)
-	{
-		MSPipeInstance* myPipeInstance=new MSPipeInstance(myPipe,myHandle);
-		return myPipeInstance;
-	}
-	else
-	{
-		printf("Pipe connection error: %d\n", GetLastError());
-        exit(-1);
-		return NULL;
-	}
-}
-
-
 MSPipeInstance* MSPipe::getNextConnection()
 {
 	MSPipeInstance* instance;
-	BOOL fConnected = ConnectNamedPipe(winPipe, NULL)? 
-         TRUE : (GetLastError() == ERROR_PIPE_CONNECTED); 
-
+	bool fConnected = ConnectNamedPipe(winPipe, NULL);
 	if(fConnected)
 	{
 		instance=new MSPipeInstance(this,winPipe);
@@ -87,9 +52,21 @@ MSPipeInstance* MSPipe::getNextConnection()
 	else
 	{
 		printf("Pipe connection error: %d\n", GetLastError());
-        //exit(-1);
+        exit(-1);
 	}
 	return instance;
+}
+
+std::wstring MSPipe::s2ws(const std::string& s)
+{
+ int len;
+ int slength = (int)s.length() + 1;
+ len = MultiByteToWideChar(CP_ACP, 0, s.c_str(), slength, 0, 0); 
+ wchar_t* buf = new wchar_t[len];
+ MultiByteToWideChar(CP_ACP, 0, s.c_str(), slength, buf, len);
+ std::wstring r(buf);
+ delete[] buf;
+ return r;
 }
 
 MSPipeInstance::MSPipeInstance(MSPipe *parent, HANDLE handle)
@@ -98,34 +75,28 @@ MSPipeInstance::MSPipeInstance(MSPipe *parent, HANDLE handle)
 	this->hPipe=handle;
 }
 
-void MSPipeInstance::write(LPCVOID data,int size)
+void MSPipeInstance::write(std::string message)
 {
-	BOOL writeResult= WriteFile(
+	const char* pcharMsg=message.c_str();
+	BOOL writeResul= WriteFile(
 		hPipe,
-		data,
-		size,
+		pcharMsg,
+		sizeof(pcharMsg),
 		NULL,
 		NULL
-	);
-	if(writeResult==false)
-	{
-		printf("PipeInstance write error: %d\n", GetLastError());
-        exit(-1);
-	}
+	);		
 }
 
-void MSPipeInstance::read(LPVOID data,int size)
+std::string MSPipeInstance::read()
 {
-	BOOL readResult= ReadFile(
+	char* buffer=new char[parentPipe->getBufferSize()];
+	BOOL readResul= ReadFile(
 		hPipe,
-		data,
-		size,
+		buffer,
+		sizeof(buffer),
 		NULL,
 		NULL
 	);	
-	if(readResult==false)
-	{
-		printf("PipeInstance read error: %d\n", GetLastError());
-        exit(-1);
-	}
+	std::string message(buffer);
+	return message;
 }

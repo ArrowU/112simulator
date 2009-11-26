@@ -1,9 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual C++ Express 2008
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "112simulator-server", "112simulator-client.vcproj", "{15EC4BD0-4012-4249-9601-4A9D97E51D08}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "client", "..\client\client.vcproj", "{A2CBF26A-9771-4B33-BE5B-5F2B6F50D7DA}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "112Simulator", "112Simulator\112Simulator.vcproj", "{4502A6D5-B0B1-458C-98E9-18045D0F7CF5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,14 +9,10 @@ Global
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{15EC4BD0-4012-4249-9601-4A9D97E51D08}.Debug|Win32.ActiveCfg = Debug|Win32
-		{15EC4BD0-4012-4249-9601-4A9D97E51D08}.Debug|Win32.Build.0 = Debug|Win32
-		{15EC4BD0-4012-4249-9601-4A9D97E51D08}.Release|Win32.ActiveCfg = Release|Win32
-		{15EC4BD0-4012-4249-9601-4A9D97E51D08}.Release|Win32.Build.0 = Release|Win32
-		{A2CBF26A-9771-4B33-BE5B-5F2B6F50D7DA}.Debug|Win32.ActiveCfg = Debug|Win32
-		{A2CBF26A-9771-4B33-BE5B-5F2B6F50D7DA}.Debug|Win32.Build.0 = Debug|Win32
-		{A2CBF26A-9771-4B33-BE5B-5F2B6F50D7DA}.Release|Win32.ActiveCfg = Release|Win32
-		{A2CBF26A-9771-4B33-BE5B-5F2B6F50D7DA}.Release|Win32.Build.0 = Release|Win32
+		{4502A6D5-B0B1-458C-98E9-18045D0F7CF5}.Debug|Win32.ActiveCfg = Debug|Win32
+		{4502A6D5-B0B1-458C-98E9-18045D0F7CF5}.Debug|Win32.Build.0 = Debug|Win32
+		{4502A6D5-B0B1-458C-98E9-18045D0F7CF5}.Release|Win32.ActiveCfg = Release|Win32
+		{4502A6D5-B0B1-458C-98E9-18045D0F7CF5}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

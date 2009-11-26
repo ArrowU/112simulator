@@ -18,13 +18,13 @@ public:
 private:
 	//--- Autre ---
 	HANDLE winPipe;
-	LPCTSTR name;
+	std::string name;
 	int mode;
 	int bufferSize;
 
 	//--- Méthodes ---
 public:
-	MSPipe(LPCTSTR,int);
+	MSPipe(std::string,int);
 	~MSPipe();
 	void create();
 	MSPipeInstance* getNextConnection();
@@ -32,10 +32,8 @@ public:
 	int getMode();
 	void setBufferSize(int);
 	int getBufferSize();
-	HANDLE getHandle();
-	static MSPipeInstance* connect(LPCTSTR);
 private:
-	
+	std::wstring s2ws(const std::string&);
 
 };
 
@@ -53,8 +51,8 @@ private:
 public:
 	MSPipeInstance(MSPipe*,HANDLE);
 	~MSPipeInstance();
-	void read(LPVOID,int);
-	void write(LPCVOID,int);
+	std::string read();
+	void write(std::string);
 	void close();
 private:
 };
