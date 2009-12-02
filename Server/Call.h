@@ -43,6 +43,7 @@ class Call
 		int getRequiredMedics();
 		void setRequiredTeams(int);
 		int getRequiredTeams();
+		int getSource();
 	private:
 		
 };
