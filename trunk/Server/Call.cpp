@@ -84,3 +84,8 @@ int Call::getRequiredTeams()
 {
 	return requiredTeams;
 }
+
+int Call::getSource()
+{
+	return source;
+}
