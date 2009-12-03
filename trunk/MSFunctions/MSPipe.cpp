@@ -73,14 +73,14 @@ MSPipeInstance* MSPipe::connect(LPCTSTR pipeName)
 		else
 		{
 			printf("Pipe connection error, could not change pipe Mode: %d\n", GetLastError());
-			exit(-1);
+			system("pause");
 			return NULL;
 		}
 	}
 	else
 	{
 		printf("Pipe connection error: %d\n", GetLastError());
-        exit(-1);
+        system("pause");
 		return NULL;
 	}
 }
@@ -99,7 +99,7 @@ MSPipeInstance* MSPipe::getNextConnection()
 	else
 	{
 		printf("Pipe connection error: %d\n", GetLastError());
-        //exit(-1);
+        //system("pause");
 	}
 	return instance;
 }
@@ -124,7 +124,7 @@ void MSPipeInstance::write(LPCVOID data,int size)
 	if(writeResult==false)
 	{
 		printf("PipeInstance write error: %d\n", GetLastError());
-        exit(-1);
+        system("pause");
 	}
 }
 
@@ -141,7 +141,7 @@ void MSPipeInstance::read(LPVOID data,int size)
 	if(readResult==false)
 	{
 		printf("PipeInstance read error: %d\n", GetLastError());
-        exit(-1);
+        system("pause");
 	}
 }
 

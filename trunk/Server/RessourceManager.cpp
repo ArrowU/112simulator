@@ -1,6 +1,6 @@
 #include "RessourceManager.h"
 #include <iostream>
-using namespace std;
+//using namespace std;
 
 RessourceManager::RessourceManager()
 {
@@ -50,7 +50,7 @@ void RessourceManager::addCallToWaitingList(Call call)
 	}
 	else
 	{
-		cout<<"appel impossible a traiter"<<endl;
+		std::cout<<"appel impossible a traiter"<<std::endl;
 	}
 }
 
@@ -63,10 +63,10 @@ bool RessourceManager::missionPossible(Call call)
 	}
 }
 
-bool RessourceManager::callCheckup(queue<Call> queue)
+bool RessourceManager::callCheckup(std::queue<Call> queue)
 {
 	bool missionStarted = false;
-	queue<Call> listProv;
+	std::queue<Call> listProv;
 
 	while(!queue.empty())
 	{
@@ -83,7 +83,7 @@ bool RessourceManager::callCheckup(queue<Call> queue)
 	}
 	while (!listProv.empty())
 	{
-		queue.push(list.front());
+		queue.push(listProv.front());
 		listProv.pop();
 	}
 	return missionStarted;

@@ -63,7 +63,7 @@ void MSThread::run(void)
 	else
 	{
 		printf("MSThread run() error : Thread handle not created in class MSSemaphore: %d\n", GetLastError());
-		exit(-1);
+		system("pause");
 	}
 }
 

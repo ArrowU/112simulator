@@ -11,11 +11,13 @@ private:
 	MSBuffer<Call> *nursingHomeBuffer;
 	MSBuffer<Call> *schoolBuffer;
 	MSBuffer<Call> *privateIndividualBuffer;
+	MSSemaphore *callSemaphore;
 	//--- Méthodes ---
 public:
 	CallCenter();
 	~CallCenter();
 	Call* getNextCall();
+	void addCall(Call *);
 private:
 
 };

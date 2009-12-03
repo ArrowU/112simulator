@@ -26,7 +26,7 @@ void OperatorThread::start()
 		myOperator->incrementCallCount();
 		call->setOperatorId(myOperator->getId());
 		call->setOperatorCallCount(myOperator->getCallCount());
-		//printf("Je l'ai eu");
+		printf("Je l'ai eu");
 		// --- Crée le Thread de chargement des ressource au ressourceManager ---
 	//}
 }
