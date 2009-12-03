@@ -14,15 +14,19 @@ enum CallOrigin
 class Call
 {
 	//--- Attributs ---
+	public:
+		static const int NURSING_HOME=1;
+		static const int SCHOOL=2;
+		static const int PRIVATE_INDIVIDUAL=3;
 	private:
-		CallOrigin origin;
+		//int origin;
 		int operatorId;
 		int operatorCallCount;
 		int requiredChoppers;
 		int requiredAmbulances;
 		int requiredMedics;
 		int requiredTeams;
-		CallOrigin source;
+		int source;
 		//Ressource* reservedRessources;
 
 		//--- Méthodes ---

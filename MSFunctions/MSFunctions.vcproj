@@ -175,23 +175,23 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath=".\112simulator\MSBuffer.h"
+				RelativePath=".\MSBuffer.h"
 				>
 			</File>
 			<File
-				RelativePath=".\112simulator\MSMutex.h"
+				RelativePath=".\MSMutex.h"
 				>
 			</File>
 			<File
-				RelativePath=".\112simulator\MSPipe.h"
+				RelativePath=".\MSPipe.h"
 				>
 			</File>
 			<File
-				RelativePath=".\112simulator\MSSemaphore.h"
+				RelativePath=".\MSSemaphore.h"
 				>
 			</File>
 			<File
-				RelativePath=".\112simulator\MSThread.h"
+				RelativePath=".\MSThread.h"
 				>
 			</File>
 		</Filter>

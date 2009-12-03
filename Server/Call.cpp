@@ -10,6 +10,7 @@ Call::~Call()
 
 Call::Call(int choppers, int ambulances, int medics, int teams, int source) : requiredChoppers(choppers), requiredAmbulances(ambulances), requiredMedics(medics), requiredTeams(teams)
 {
+	/*
 	switch ( source )
 	{
 		case 1:
@@ -22,6 +23,8 @@ Call::Call(int choppers, int ambulances, int medics, int teams, int source) : re
 			source = privateIndividual;
 			break;
 	}
+	*/
+	this->source=source;
 }
 
 void Call::setOperatorId(int opId)

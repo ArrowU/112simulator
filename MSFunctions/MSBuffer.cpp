@@ -19,7 +19,7 @@
 //	else
 //	{
 //		printf("Error while creating the queue in MSBuffer \n");
-//        exit(-1);
+//        system("pause");
 //	}
 //
 //}
@@ -39,13 +39,13 @@
 //		else
 //	{
 //		printf("Error while adding element to the queue in MSBuffer : threadSafeLock wait failed \n");
-//        exit(-1);
+//        system("pause");
 //	}
 //	}
 //	else
 //	{
 //		printf("Error while adding element to the queue in MSBuffer : fullLock wait failed \n");
-//        exit(-1);
+//        system("pause");
 //	}
 //	emptyLock.unlock();
 //	threadSafeLock.unlock();
@@ -68,13 +68,13 @@
 //		else
 //		{
 //			printf("Error while getting element of the queue in MSBuffer : threadSafeLock wait failed \n");
-//			exit(-1);
+//			system("pause");
 //		}
 //	}
 //	else
 //	{
 //		printf("Error while getting element of the queue in MSBuffer : emptyLock wait failed \n");
-//        exit(-1);
+//        system("pause");
 //	}
 //	fullLock.unlock();
 //	threadSafeLock.unlock();
@@ -105,7 +105,7 @@
 //	else
 //	{
 //		printf("Error while checking emptiness in MSBuffer : threadSafeLock wait failed \n");
-//		exit(-1);
+//		system("pause");
 //	}
 //	threadSafeLock.unlock();
 //	return empty;
@@ -123,7 +123,7 @@
 //	else
 //	{
 //		printf("Error while checking fullness in MSBuffer : threadSafeLock wait failed \n");
-//		exit(-1);
+//		system("pause");
 //	}
 //	threadSafeLock.unlock();
 //	return full;

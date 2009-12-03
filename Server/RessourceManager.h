@@ -4,7 +4,7 @@
 #include <queue>
 #include "Ressource.h"
 #include "MSBuffer.h"
-#include "MSThread"
+#include "MSThread.h"
 #include "Call.h"
 
 
@@ -20,10 +20,10 @@ class RessourceManager : public MSThread
 		MSBuffer<Ressource> *choppers;
 		MSBuffer<Ressource> *medicalisedTeams;
 		MSBuffer<Ressource> *nonMedicalisedTeams;
-		queue<Call> waitingListPrio1;
-		queue<Call> waitingListPrio2;
-		queue<Call> waitingListPrio3;
-		queue<Call> waitingListPrio0; // liste pour le traitement en urgence
+		std::queue<Call> waitingListPrio1;
+		std::queue<Call> waitingListPrio2;
+		std::queue<Call> waitingListPrio3;
+		std::queue<Call> waitingListPrio0; // liste pour le traitement en urgence
 
 		//--- Méthodes ---
 	public:
@@ -42,7 +42,7 @@ class RessourceManager : public MSThread
 		*/
 	private:
 		bool missionPossible(Call);
-		bool callCheckup(queue<Call>);
+		bool callCheckup(std::queue<Call>);
 		
 };
 

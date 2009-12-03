@@ -10,6 +10,7 @@ public:
 	//--- Constantes statiques ---
 	static const bool START_LOCKED = true;
 	static const bool START_UNLOCKED = false;
+	static const int WAIT_INFINITE = -1;
 private:
 	//--- Autre ---
 	HANDLE winSemaphore;

@@ -18,7 +18,7 @@ MSSemaphore::MSSemaphore(int maxCount,int initialCount=START_FULL)
 	if (winSemaphore == NULL) 
     {
         printf("CreateSemaphore error: %d\n", GetLastError());
-        exit(-1);
+        system("pause");
     }
 }
 
@@ -50,7 +50,7 @@ bool MSSemaphore::waitForUnlock(int timeout=-1)
 			// An error occured
 			default:
 				printf("Semaphore wait error in class MSSemaphore: %d\n", GetLastError());
-				exit(-1);
+				system("pause");
 				break;
     }
     return bResult;
@@ -67,7 +67,7 @@ void MSSemaphore::unlock(int ressourceCount=1)
 	if(bResult==false)
 	{
 		printf("Semaphore unlock error in class MSSemaphore: %d\n", GetLastError());
-		exit(-1);
+		system("pause");
 	}
 }
 

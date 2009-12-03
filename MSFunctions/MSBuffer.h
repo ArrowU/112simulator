@@ -9,6 +9,10 @@ template <class T>
 class MSBuffer
 {
 	//--- Attributs ---
+	//--- Constantes statiques ---
+public:
+	static const int WAIT_FOR_ELEMENT = 1;
+	static const int RETURN_NULL_IF_EMPTY = 0;
 private:
 	T* queue;
 	int readIndex;
@@ -25,7 +29,7 @@ public:
 	MSBuffer(int);
 	~MSBuffer();
 	void addElement(T);
-	T getElement();
+	T* getElement(int);
 	int getCurrentSize();
 	int getMaxSize();
 	bool isEmpty();
@@ -58,9 +62,9 @@ MSBuffer<T>::MSBuffer(int size)
 template <class T> 
 void MSBuffer<T>::addElement(T element)
 {
-	if(fullLock->waitForUnlock())
+	if(fullLock->waitForUnlock(-1))
 	{
-		if(threadSafeLock->waitForUnlock())
+		if(threadSafeLock->waitForUnlock(-1))
 		{
 			queue[writeIndex]=element;
 			writeIndex++;
@@ -70,46 +74,76 @@ void MSBuffer<T>::addElement(T element)
 		else
 	{
 		printf("Error while adding element to the queue in MSBuffer : threadSafeLock wait failed \n");
-        exit(-1);
+        system("pause");
 	}
 	}
 	else
 	{
 		printf("Error while adding element to the queue in MSBuffer : fullLock wait failed \n");
-        exit(-1);
+        system("pause");
 	}
-	emptyLock->unlock();
+	emptyLock->unlock(1);
 	threadSafeLock->unlock();
 }
 
 
 template <class T> 
-T MSBuffer<T>::getElement()
+T* MSBuffer<T>::getElement(int mode=WAIT_FOR_ELEMENT)
 {
 	T element;
-	if(emptyLock.waitForUnlock())
-	{
-		if(threadSafeLock.waitForUnlock())
+	T* pElement;
+	if(mode==WAIT_FOR_ELEMENT){
+		if(emptyLock->waitForUnlock(-1))
 		{
-			element=queue[readIndex];
-			readIndex++;
-			readIndex=readIndex%maxSize;
-			currentSize--;
+			if(threadSafeLock->waitForUnlock(-1))
+			{
+				element=queue[readIndex];
+				readIndex++;
+				readIndex=readIndex%maxSize;
+				currentSize--;
+			}
+			else
+			{
+				printf("Error while getting element of the queue in MSBuffer : threadSafeLock wait failed \n");
+				system("pause");
+			}
 		}
 		else
 		{
-			printf("Error while getting element of the queue in MSBuffer : threadSafeLock wait failed \n");
-			exit(-1);
+			printf("Error while getting element of the queue in MSBuffer : emptyLock wait failed \n");
+			system("pause");
 		}
+		fullLock->unlock(1);
+		threadSafeLock->unlock();
+		pElement=&element;
+		return pElement;
 	}
-	else
+	else if(mode=RETURN_NULL_IF_EMPTY)
 	{
-		printf("Error while getting element of the queue in MSBuffer : emptyLock wait failed \n");
-        exit(-1);
+		if(emptyLock->waitForUnlock(0))
+		{
+			if(threadSafeLock->waitForUnlock(0))
+			{
+				element=queue[readIndex];
+				readIndex++;
+				readIndex=readIndex%maxSize;
+				currentSize--;
+			}
+			else
+			{
+				printf("Error while getting element of the queue in MSBuffer : threadSafeLock wait failed \n");
+				system("pause");
+			}
+		}
+		else
+		{
+			return NULL;
+		}
+		fullLock->unlock(1);
+		threadSafeLock->unlock();
+		pElement=&element;
+		return pElement;
 	}
-	fullLock.unlock();
-	threadSafeLock.unlock();
-	return element;
 }
 
 template <class T> 
@@ -136,7 +170,7 @@ bool MSBuffer<T>::isEmpty()
 	else
 	{
 		printf("Error while checking emptiness in MSBuffer : threadSafeLock wait failed \n");
-		exit(-1);
+		system("pause");
 	}
 	threadSafeLock.unlock();
 	return empty;
@@ -154,7 +188,7 @@ bool MSBuffer<T>::isFull()
 	else
 	{
 		printf("Error while checking fullness in MSBuffer : threadSafeLock wait failed \n");
-		exit(-1);
+		system("pause");
 	}
 	threadSafeLock.unlock();
 	return full;

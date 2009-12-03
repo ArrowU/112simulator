@@ -26,7 +26,7 @@ MSMutex::MSMutex(bool startLocked=false)
 	if (winSemaphore == NULL) 
     {
         printf("CreateSemaphore error: %d\n", GetLastError());
-        exit(-1);
+        system("pause");
     }
 }
 
@@ -58,7 +58,7 @@ bool MSMutex::waitForUnlock(int timeout=-1)
 			// An error occured
 			default:
 				printf("Semaphore wait error in class MSMutex: %d\n", GetLastError());
-				exit(-1);
+				system("pause");
 				break;
     }
     return bResult;
@@ -74,7 +74,7 @@ void MSMutex::unlock()
 	if(bResult==false)
 	{
 		printf("Semaphore unlock error in class MSMutex: %d\n", GetLastError());
-		exit(-1);
+		system("pause");
 	}
 }
 
