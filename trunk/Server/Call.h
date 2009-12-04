@@ -48,6 +48,7 @@ class Call
 		void setRequiredTeams(int);
 		int getRequiredTeams();
 		int getSource();
+		void isImpossibleCall();
 	private:
 		
 };
