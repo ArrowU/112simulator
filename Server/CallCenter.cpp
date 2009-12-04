@@ -138,9 +138,9 @@ Call* CallCenter::getNextCall()
 void CallCenter::addCall(Call* call)
 {
 	int source=call->getSource();
-	if(source==Call::NURSING_HOME) nursingHomeBuffer->addElement(*call);
-	else if(source==Call::SCHOOL) schoolBuffer->addElement(*call);
-	else if(source==Call::PRIVATE_INDIVIDUAL) privateIndividualBuffer->addElement(*call);
+	if(source==Call::NURSING_HOME) nursingHomeBuffer->addElement(call);
+	else if(source==Call::SCHOOL) schoolBuffer->addElement(call);
+	else if(source==Call::PRIVATE_INDIVIDUAL) privateIndividualBuffer->addElement(call);
 	else {
 		printf("CallCenter - addCall : origine de l'appel inconnue");
 		system("pause");
