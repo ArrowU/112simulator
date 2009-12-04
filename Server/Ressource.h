@@ -1,28 +1,28 @@
 #ifndef _RESSOURCE_H
 #define _RESSOURCE_H
 
-enum RessourceType
-{
-	chopper,
-	ambulance,
-	medicalisedTeam,
-	nonMedicalisedTeam
-};
-
 class Ressource
 {
 	//--- Attributs ---
-	private:
+public:
+	//--- Constantes statiques ---
+	static const int CHOPPER = 0;
+	static const int AMBULANCE = 1;
+	static const int MEDIC = 2;
+	static const int TEAM = 3;
+	
+private:
 		RessourceType type;
 		int id;
 
 		//--- Méthodes ---
-	public:
-		Ressource(RessourceType,int);
+public:
+		Ressource(int, int); // type, id
 		~Ressource();
 		RessourceType getType();
 		int getId();
-	private:
+	
+private:
 		
 };
 
