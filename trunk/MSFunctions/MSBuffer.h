@@ -14,7 +14,7 @@ public:
 	static const int WAIT_FOR_ELEMENT = 1;
 	static const int RETURN_NULL_IF_EMPTY = 0;
 private:
-	T* queue;
+	T** queue;
 	int readIndex;
 	int writeIndex;
 	int currentSize;
@@ -28,7 +28,7 @@ private:
 public:
 	MSBuffer(int);
 	~MSBuffer();
-	void addElement(T);
+	void addElement(T*);
 	T* getElement(int);
 	int getCurrentSize();
 	int getMaxSize();
@@ -54,13 +54,13 @@ MSBuffer<T>::MSBuffer(int size)
 	currentSize=0;
 	readIndex=0;
 	writeIndex=0;
-	queue= new T[size];
+	queue= new T*[size];
 
 	threadSafeLock->unlock();
 }
 
 template <class T> 
-void MSBuffer<T>::addElement(T element)
+void MSBuffer<T>::addElement(T* element)
 {
 	if(fullLock->waitForUnlock(-1))
 	{
@@ -90,8 +90,7 @@ void MSBuffer<T>::addElement(T element)
 template <class T> 
 T* MSBuffer<T>::getElement(int mode=WAIT_FOR_ELEMENT)
 {
-	T element;
-	T* pElement;
+	T* element;
 	if(mode==WAIT_FOR_ELEMENT){
 		if(emptyLock->waitForUnlock(-1))
 		{
@@ -115,10 +114,9 @@ T* MSBuffer<T>::getElement(int mode=WAIT_FOR_ELEMENT)
 		}
 		fullLock->unlock(1);
 		threadSafeLock->unlock();
-		pElement=&element;
-		return pElement;
+		return element;
 	}
-	else if(mode=RETURN_NULL_IF_EMPTY)
+	else if(mode==RETURN_NULL_IF_EMPTY)
 	{
 		if(emptyLock->waitForUnlock(0))
 		{
@@ -141,8 +139,7 @@ T* MSBuffer<T>::getElement(int mode=WAIT_FOR_ELEMENT)
 		}
 		fullLock->unlock(1);
 		threadSafeLock->unlock();
-		pElement=&element;
-		return pElement;
+		return element;
 	}
 }
 

@@ -22,7 +22,7 @@ void OperatorThread::start()
 {
 	//while(true)
 	//{
-		Call *call = myOperator->getCallCenter()->getNextCall();
+		Call* call = myOperator->getCallCenter()->getNextCall();
 		myOperator->incrementCallCount();
 		call->setOperatorId(myOperator->getId());
 		call->setOperatorCallCount(myOperator->getCallCount());
