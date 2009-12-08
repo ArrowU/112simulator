@@ -15,7 +15,6 @@ class Call
 		static const int SCHOOL=2;
 		static const int PRIVATE_INDIVIDUAL=3;
 	private:
-		//int origin;
 		int operatorCallCount;
 		int requiredChoppers;
 		int requiredAmbulances;
@@ -32,7 +31,6 @@ class Call
 		~Call();
 		void setOperator(Operator*);
 		Operator* getOperatorId();
-		Ressource* getRessource();
 		void setOperatorCallCount(int);
 		int getOperatorCallCount();
 		void setRequiredChoppers(int);
@@ -45,6 +43,7 @@ class Call
 		int getRequiredTeams();
 		int getSource();
 		void isImpossibleCall();
+		void addRessource( Ressource *);
 	private:
 		
 };

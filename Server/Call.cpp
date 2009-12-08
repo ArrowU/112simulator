@@ -8,7 +8,7 @@ Call::~Call()
 Call::Call(int choppers, int ambulances, int medics, int teams, int source) : requiredChoppers(choppers), requiredAmbulances(ambulances), requiredMedics(medics), requiredTeams(teams)
 {
 	this->source=source;
-	ressources = new MSBuffer<Ressource>(10);
+	ressources = new MSBuffer<Ressource>(20);
 }
 
 Call::Call()
@@ -86,7 +86,7 @@ void Call::isImpossibleCall()
 	printf("Appel Impossible");
 }
 
-Ressource* Call::getRessource()
+void Call::addRessource(Ressource * ressource)
 {
-	return NULL;
+	ressources->addElement(ressource);
 }
