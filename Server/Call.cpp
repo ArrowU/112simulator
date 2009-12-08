@@ -98,3 +98,7 @@ void Call::isImpossibleCall()
 {
 	printf("Appel Impossible");
 }
+
+Ressource* Call::getRessource()
+{
+}

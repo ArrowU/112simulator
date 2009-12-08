@@ -1,15 +1,10 @@
 #ifndef _CALL_H
 #define _CALL_H
 
-//#include "Ressource.h"
-//#include "Operator.h"
+#include "Ressource.h"
+#include "Operator.h"
+#include "MSBuffer.h"
 
-enum CallOrigin
-{
-	nursingHome,
-	school,
-	privateIndividual
-};
 
 class Call
 {
@@ -20,14 +15,13 @@ class Call
 		static const int PRIVATE_INDIVIDUAL=3;
 	private:
 		//int origin;
-		int operatorId;
 		int operatorCallCount;
 		int requiredChoppers;
 		int requiredAmbulances;
 		int requiredMedics;
 		int requiredTeams;
 		int source;
-		//Ressource* reservedRessources;
+		MSBuffer<Ressource> *ressources;
 
 		//--- Méthodes ---
 	public:
@@ -36,7 +30,7 @@ class Call
 		~Call();
 		void setOperatorId(int);
 		int getOperatorId();
-		//Ressource* getReservedRessource();
+		Ressource* getRessource();
 		void setOperatorCallCount(int);
 		int getOperatorCallCount();
 		void setRequiredChoppers(int);
