@@ -11,6 +11,10 @@ Call::Call(int choppers, int ambulances, int medics, int teams, int source) : re
 	ressources = new MSBuffer<Ressource>(10);
 }
 
+Call::Call()
+{
+}
+
 void Call::setOperator(Operator* op)
 {
 	this->myOperator=op;
