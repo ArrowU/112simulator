@@ -24,7 +24,7 @@ void OperatorThread::start()
 	//{
 		Call* call = myOperator->getCallCenter()->getNextCall();
 		myOperator->incrementCallCount();
-		call->setOperatorId(myOperator->getId());
+		call->setOperator(myOperator);
 		call->setOperatorCallCount(myOperator->getCallCount());
 		//printf("Je l'ai eu");
 		myOperator->getRessourceManager()->addCallToWaitingList(call);

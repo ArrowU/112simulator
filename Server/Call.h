@@ -5,6 +5,7 @@
 #include "Operator.h"
 #include "MSBuffer.h"
 
+class Operator;
 
 class Call
 {
@@ -21,14 +22,15 @@ class Call
 		int requiredMedics;
 		int requiredTeams;
 		int source;
+		Operator* myOperator;
 		MSBuffer<Ressource> *ressources;
 
 		//--- Méthodes ---
 	public:
 		Call(int,int,int,int,int);
 		~Call();
-		void setOperatorId(int);
-		int getOperatorId();
+		void setOperator(Operator*);
+		Operator* getOperatorId();
 		Ressource* getRessource();
 		void setOperatorCallCount(int);
 		int getOperatorCallCount();

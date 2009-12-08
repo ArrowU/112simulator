@@ -7,6 +7,7 @@
 #include "MSMutex.h"
 #include "Call.h"
 
+class Call;
 
 class RessourceManager : public MSThread
 {

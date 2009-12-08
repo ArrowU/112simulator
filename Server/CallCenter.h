@@ -4,6 +4,8 @@
 #include "Call.h"
 #include "MSBuffer.h"
 
+class Call;
+
 class CallCenter
 {
 	//--- Attributs ---
