@@ -2,6 +2,7 @@
 #define _OPERATOR_H
 
 #include "CallCenter.h"
+#include "RessourceManager.h"
 #include "Call.h"
 
 class Operator
@@ -10,6 +11,7 @@ class Operator
 private:
 	int id;
 	CallCenter *callCenter;
+	RessourceManager *ressourceManager;
 	int callCount;
 
 	//--- Méthodes ---
@@ -20,6 +22,8 @@ public:
 	CallCenter* getCallCenter();
 	int getCallCount();
 	void incrementCallCount();
+	void setRessourceManager(RessourceManager*);
+	RessourceManager* getRessourceManager();
 private:
 
 };

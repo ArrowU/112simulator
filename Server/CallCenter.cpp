@@ -100,6 +100,10 @@ CallCenter::CallCenter()
 	schoolBuffer=new MSBuffer<Call>(512);
 	privateIndividualBuffer=new MSBuffer<Call>(512);
 	callSemaphore=new MSSemaphore(3*512,MSSemaphore::START_EMPTY);
+	
+	// --- Start Ressource Manager ---
+	RessourceManager *ressourceManager=new RessourceManager();
+
 	// --- Start pipe ---
 	MSPipe* myPipe;
 	myPipe=new MSPipe(TEXT("\\\\.\\pipe\\mynamedpipe"));
@@ -110,7 +114,10 @@ CallCenter::CallCenter()
 	myPipeManagerThread->run();
 
 	// --- Start operators ---
-	Operator* op=new Operator(1,this);
+	for(int i=0;i<3;i++){
+		Operator* op=new Operator(i,this);
+		op->setRessourceManager(ressourceManager);
+	}
 }
 
 CallCenter::~CallCenter()

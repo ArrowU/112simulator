@@ -26,7 +26,8 @@ void OperatorThread::start()
 		myOperator->incrementCallCount();
 		call->setOperatorId(myOperator->getId());
 		call->setOperatorCallCount(myOperator->getCallCount());
-		printf("Je l'ai eu");
+		//printf("Je l'ai eu");
+		myOperator->getRessourceManager()->addCallToWaitingList(call);
 		// --- Crée le Thread de chargement des ressource au ressourceManager ---
 	//}
 }
@@ -72,4 +73,14 @@ void Operator::incrementCallCount()
 int Operator::getId()
 {
 	return id;
+}
+
+void Operator::setRessourceManager(RessourceManager* resMan)
+{
+	this->ressourceManager=resMan;
+}
+
+RessourceManager* Operator::getRessourceManager()
+{
+	return this->ressourceManager;
 }
