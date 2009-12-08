@@ -28,6 +28,7 @@ class Call
 		//--- Méthodes ---
 	public:
 		Call(int,int,int,int,int);
+		Call();
 		~Call();
 		void setOperator(Operator*);
 		Operator* getOperatorId();
