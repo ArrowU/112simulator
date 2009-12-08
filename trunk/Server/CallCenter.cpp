@@ -103,6 +103,7 @@ CallCenter::CallCenter()
 	
 	// --- Start Ressource Manager ---
 	RessourceManager *ressourceManager=new RessourceManager();
+	ressourceManager->run();
 
 	// --- Start pipe ---
 	MSPipe* myPipe;

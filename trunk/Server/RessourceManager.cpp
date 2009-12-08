@@ -5,10 +5,10 @@
 RessourceManager::RessourceManager()
 {
 	// initialisation des buffers
+	waitingListPrio0 = new MSBuffer<Call>(10); // prio absolue
 	waitingListPrio1 = new MSBuffer<Call>(10);
 	waitingListPrio2 = new MSBuffer<Call>(10);
 	waitingListPrio3 = new MSBuffer<Call>(10);
-	waitingListPrio1 = new MSBuffer<Call>(10);
 	choppers = new MSBuffer<Ressource>(1);
 	ambulances = new MSBuffer<Ressource>(5);
 	medics = new MSBuffer<Ressource>(3);
