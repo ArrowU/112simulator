@@ -1,4 +1,5 @@
 #include "Call.h"
+#include <stdio.h>
 
 Call::Call()
 {
@@ -91,4 +92,9 @@ int Call::getRequiredTeams()
 int Call::getSource()
 {
 	return source;
+}
+
+void Call::isImpossibleCall()
+{
+	printf("Appel Impossible");
 }
