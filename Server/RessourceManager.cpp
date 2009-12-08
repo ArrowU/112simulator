@@ -1,5 +1,5 @@
 #include "RessourceManager.h"
-#include <iostream>
+#include <stdio.h>
 
 
 RessourceManager::RessourceManager()
@@ -42,10 +42,12 @@ RessourceManager::RessourceManager()
 	newCall2 = false;
 	newCall3 = false;
 	newCall0 = false;
+	printf("RessourceManager created... \n");
 }
 
 void RessourceManager::start()
 {
+	printf("RessourceManager launched... \n");
 	threadSafeLock0->waitForUnlock(MSMutex::WAIT_INFINITE);
 	checkList(waitingListPrio0);
 	newCall0 = false;
@@ -112,6 +114,7 @@ void RessourceManager::addCallToWaitingList(Call* call)
 				break;
 		}
 	}
+	printf("Call checked... \n");
 }
 
 void RessourceManager::finishedMission(Call* call)
