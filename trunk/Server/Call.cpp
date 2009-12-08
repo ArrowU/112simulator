@@ -1,31 +1,14 @@
 #include "Call.h"
 #include <stdio.h>
 
-Call::Call()
-{
-}
-
 Call::~Call()
 {
 }
 
 Call::Call(int choppers, int ambulances, int medics, int teams, int source) : requiredChoppers(choppers), requiredAmbulances(ambulances), requiredMedics(medics), requiredTeams(teams)
 {
-	/*
-	switch ( source )
-	{
-		case 1:
-			source = nursingHome;
-			break;
-		case 2:
-			source = school;
-			break;
-		case 3:
-			source = privateIndividual;
-			break;
-	}
-	*/
 	this->source=source;
+	ressources = new MSBuffer<Ressource>(10);
 }
 
 void Call::setOperatorId(int opId)
