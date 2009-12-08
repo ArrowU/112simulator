@@ -12,14 +12,14 @@ public:
 	static const int TEAM = 3;
 	
 private:
-		RessourceType type;
+		int type;
 		int id;
 
 		//--- Méthodes ---
 public:
 		Ressource(int, int); // type, id
 		~Ressource();
-		RessourceType getType();
+		int getType();
 		int getId();
 	
 private:

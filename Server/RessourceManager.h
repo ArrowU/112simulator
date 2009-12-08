@@ -4,7 +4,7 @@
 #include "Ressource.h"
 #include "MSBuffer.h"
 #include "MSThread.h"
-#include "MSMutex.h";
+#include "MSMutex.h"
 #include "Call.h"
 
 
@@ -16,10 +16,10 @@ class RessourceManager : public MSThread
 		MSBuffer<Ressource> *choppers;
 		MSBuffer<Ressource> *medics;
 		MSBuffer<Ressource> *teams;
-		MSBuffer<Call> waitingListPrio1;
-		MSBuffer<Call> waitingListPrio2;
-		MSBuffer<Call> waitingListPrio3;
-		MSBuffer<Call> waitingListPrio0; // liste pour le traitement en urgence
+		MSBuffer<Call> *waitingListPrio1;
+		MSBuffer<Call> *waitingListPrio2;
+		MSBuffer<Call> *waitingListPrio3;
+		MSBuffer<Call> *waitingListPrio0; // liste pour le traitement en urgence
 		MSMutex *threadSafeLock1;
 		MSMutex *threadSafeLock2;
 		MSMutex *threadSafeLock3;
@@ -35,8 +35,8 @@ class RessourceManager : public MSThread
 		RessourceManager();
 		~RessourceManager();
 		void start();
-		void addCall(Call);
-		void finishedMission(Call);
+		void addCallToWaitingList(Call*);
+		void finishedMission(Call*);
 		
 
 		/* Options pour des points en plus:
@@ -46,8 +46,8 @@ class RessourceManager : public MSThread
 
 		*/
 	private:
-		bool possibleMission(Call);
-		void checkList(MSBuffer<Call>);
+		bool possibleMission(Call*);
+		void checkList(MSBuffer<Call>*);
 		
 };
 
