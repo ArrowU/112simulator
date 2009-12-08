@@ -93,22 +93,22 @@ void RessourceManager::addCallToWaitingList(Call call)
 			case Call::NURSING_HOME
 				threadSafeLock1.waitForUnlock(MSMutex::WAIT_INFINITE);
 				waitingListPrio1.addElement(call);
-				threadSafeLock1.unlock;
 				newCall1 = true;
+				threadSafeLock1.unlock;
 				break;
 
 			case Call::SCHOOL
 				threadSafeLock2.waitForUnlock(MSMutex::WAIT_INFINITE);
 				waitingListPrio2.addElement(call);
-				threadSafeLock2.unlock;
 				newCall2 = true;
+				threadSafeLock2.unlock;
 				break;
 
 			case Call::PRIVATE_INDIVIDUAL
 				threadSafeLock3.waitForUnlock(MSMutex::WAIT_INFINITE);
 				waitingListPrio3.addElement(call);
-				threadSafeLock3.unlock;
 				newCall3 = true;
+				threadSafeLock3.unlock;
 				break;
 		}
 	}
