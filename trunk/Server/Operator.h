@@ -5,6 +5,9 @@
 #include "RessourceManager.h"
 #include "Call.h"
 
+class CallCenter;
+class RessourceManager;
+
 class Operator
 {
 	//--- Attributs ---

@@ -11,9 +11,9 @@ Call::Call(int choppers, int ambulances, int medics, int teams, int source) : re
 	ressources = new MSBuffer<Ressource>(10);
 }
 
-void Call::setOperatorId(int opId)
+void Call::setOperator(Operator* op)
 {
-	operatorId=opId;
+	this->myOperator=op;
 }
 
 /*
@@ -84,4 +84,5 @@ void Call::isImpossibleCall()
 
 Ressource* Call::getRessource()
 {
+	return NULL;
 }
