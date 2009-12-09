@@ -137,6 +137,7 @@ void RessourceManager::checkList(MSBuffer<Call>* waitingList)
 		if (possibleMission(waiting))
 		{
 			//on lance la mission
+			//waiting->addRessource...
 		}
 		else
 		{
