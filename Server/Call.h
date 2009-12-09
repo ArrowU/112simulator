@@ -4,6 +4,7 @@
 #include "Ressource.h"
 #include "Operator.h"
 #include "MSBuffer.h"
+#include "RessourceManager.h"
 
 class Operator;
 
@@ -23,6 +24,8 @@ class Call
 		int source;
 		Operator* myOperator;
 		MSBuffer<Ressource> *ressources;
+
+		RessourceManager *ressourceManager;
 
 		//--- Méthodes ---
 	public:
@@ -44,7 +47,9 @@ class Call
 		int getSource();
 		void isImpossibleCall();
 		void addRessource( Ressource *);
+	
 	private:
+		void freeRessources();
 		
 };
 

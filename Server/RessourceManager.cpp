@@ -37,41 +37,49 @@ RessourceManager::RessourceManager()
 	threadSafeLock2 = new MSMutex(MSMutex::START_UNLOCKED);
 	threadSafeLock3 = new MSMutex(MSMutex::START_UNLOCKED);
 	threadSafeLock0 = new MSMutex(MSMutex::START_UNLOCKED);
-	threadSafeLockRessources = new MSMutex(MSMutex::START_UNLOCKED);
+	threadSafeLockChopper = new MSMutex(MSMutex::START_UNLOCKED);
+	MSMutex *threadSafeLockAmbulance = new MSMutex(MSMutex::START_UNLOCKED);
+	MSMutex *threadSafeLockMedic = new MSMutex(MSMutex::START_UNLOCKED);
+	MSMutex *threadSafeLockTeam = new MSMutex(MSMutex::START_UNLOCKED);
 	newCall1 = false;
 	newCall2 = false;
 	newCall3 = false;
 	newCall0 = false;
+	newRessource = false;
 	printf("RessourceManager created... \n");
 }
 
 void RessourceManager::start()
 {
 	printf("RessourceManager launched... \n");
-	threadSafeLock0->waitForUnlock(MSMutex::WAIT_INFINITE);
-	checkList(waitingListPrio0);
-	newCall0 = false;
-	threadSafeLock0->unlock();
-	if (!newCall0)
+	while (true)
 	{
-		threadSafeLock1->waitForUnlock(MSMutex::WAIT_INFINITE);
-		checkList(waitingListPrio1);
-		newCall1 = false;
-		threadSafeLock1->unlock();
-	}
-	if (!newCall0 && !newCall1)
-	{
-		threadSafeLock2->waitForUnlock(MSMutex::WAIT_INFINITE);
-		checkList(waitingListPrio2);
-		newCall2 = false;
-		threadSafeLock2->unlock();
-	}
-	if (!newCall0 && !newCall1 && !newCall2)
-	{
-		threadSafeLock3->waitForUnlock(MSMutex::WAIT_INFINITE);
-		checkList(waitingListPrio3);
-		newCall3 = false;
-		threadSafeLock3->unlock();
+		threadSafeLock0->waitForUnlock(MSMutex::WAIT_INFINITE);
+		checkList(waitingListPrio0);
+		newCall0 = false;
+		threadSafeLock0->unlock();
+		newRessource = false;
+		if (!newCall0 && !newRessource)
+		{
+			threadSafeLock1->waitForUnlock(MSMutex::WAIT_INFINITE);
+			checkList(waitingListPrio1);
+			newCall1 = false;
+			threadSafeLock1->unlock();
+		}
+		if (!newCall0 && !newCall1 && !newRessource)
+		{
+			threadSafeLock2->waitForUnlock(MSMutex::WAIT_INFINITE);
+			checkList(waitingListPrio2);
+			newCall2 = false;
+			threadSafeLock2->unlock();
+		}
+		if (!newCall0 && !newCall1 && !newCall2 && !newRessource)
+		{
+			threadSafeLock3->waitForUnlock(MSMutex::WAIT_INFINITE);
+			checkList(waitingListPrio3);
+			newCall3 = false;
+			threadSafeLock3->unlock();
+		}
 	}
 }
 
@@ -117,8 +125,35 @@ void RessourceManager::addCallToWaitingList(Call* call)
 	printf("Call checked... \n");
 }
 
-void RessourceManager::finishedMission(Call* call)
+void RessourceManager::newRessource(Ressource *ressource)
 {
+	switch(ressource->getType())
+	{
+	case Ressource::CHOPPER:
+		threadSafeLockChopper->waitForUnlock(MSMutex::WAIT_INFINITE);
+		choppers->addElement(ressource);
+		newRessource = true;
+		threadSafeLockChopper->unlock();
+		break;
+	case Ressource::AMBULANCE:
+		threadSafeLockAmbulance->waitForUnlock(MSMutex::WAIT_INFINITE);
+		ambumlances->addElement(ressource);
+		newRessource = true;
+		threadSafeLockAmbulance->unlock();
+		break;
+	case Ressource::MEDIC:
+		threadSafeLockMedic->waitForUnlock(MSMutex::WAIT_INFINITE);
+		medic->addElement(ressource);
+		newRessource = true;
+		threadSafeLockMedic->unlock();
+		break;
+	case Ressource::TEAM:
+		threadSafeLockTeam->waitForUnlock(MSMutex::WAIT_INFINITE);
+		team->addElement(ressource);
+		newRessource = true;
+		threadSafeLockTeam->unlock();
+		break;
+	}
 }
 
 bool RessourceManager::possibleMission(Call* call)

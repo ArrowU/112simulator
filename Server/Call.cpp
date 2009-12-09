@@ -20,11 +20,6 @@ void Call::setOperator(Operator* op)
 	this->myOperator=op;
 }
 
-/*
-Ressource* Call::getReservedRessource()
-{
-}
-*/
 
 void Call::setOperatorCallCount(int a)
 {
@@ -89,4 +84,12 @@ void Call::isImpossibleCall()
 void Call::addRessource(Ressource * ressource)
 {
 	ressources->addElement(ressource);
+}
+
+void Call::freeRessources()
+{
+	while (!ressources->isEmpty())
+	{
+		ressourceManager->newRessource(ressources->getElement(MSBuffer<Ressource>::RETURN_NULL_IF_EMPTY));
+	}
 }
