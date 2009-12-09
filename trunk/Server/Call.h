@@ -1,12 +1,12 @@
 #ifndef _CALL_H
 #define _CALL_H
 
-#include "Ressource.h"
-#include "Operator.h"
 #include "MSBuffer.h"
-#include "RessourceManager.h"
+#include "CallInfo.h"
 
 class Operator;
+class Ressource;
+class RessourceManager;
 
 class Call
 {
@@ -17,11 +17,7 @@ class Call
 		static const int PRIVATE_INDIVIDUAL=3;
 	private:
 		int operatorCallCount;
-		int requiredChoppers;
-		int requiredAmbulances;
-		int requiredMedics;
-		int requiredTeams;
-		int source;
+		CallInfo info;
 		Operator* myOperator;
 		MSBuffer<Ressource> *ressources;
 
@@ -29,7 +25,7 @@ class Call
 
 		//--- Méthodes ---
 	public:
-		Call(int,int,int,int,int);
+		Call(CallInfo info);
 		Call();
 		~Call();
 		void setOperator(Operator*);
@@ -45,10 +41,9 @@ class Call
 		void setRequiredTeams(int);
 		int getRequiredTeams();
 		int getSource();
-		void isImpossibleCall();
+		void readyToStart();
+		void abort();
 		void addRessource( Ressource *);
-	
-	private:
 		void freeRessources();
 		
 };

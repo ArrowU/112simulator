@@ -159,7 +159,7 @@ template <class T>
 bool MSBuffer<T>::isEmpty()
 {
 	bool empty;
-	if(threadSafeLock.waitForUnlock())
+	if(threadSafeLock->waitForUnlock(-1))
 	{
 		if(currentSize==0) empty=true;
 		else empty=false;
@@ -169,7 +169,7 @@ bool MSBuffer<T>::isEmpty()
 		printf("Error while checking emptiness in MSBuffer : threadSafeLock wait failed \n");
 		system("pause");
 	}
-	threadSafeLock.unlock();
+	threadSafeLock->unlock();
 	return empty;
 }
 

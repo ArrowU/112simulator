@@ -1,10 +1,15 @@
 #include "CallCenter.h"
-#include "Operator.h"
+
 #include "MSPipe.h"
 #include "MSThread.h"
-#include "Call.h"
-#include <stdio.h>
+#include "MSBuffer.h"
 
+#include "Operator.h"
+#include "Call.h"
+#include "RessourceManager.h"
+#include "CallInfo.h"
+
+#include <stdio.h>
 
 ///////////////////////////
 // PIPE INSTANCE MANAGER //
@@ -37,11 +42,12 @@ void PipeInstanceManagerThread::setCallCenter(CallCenter* callCenter)
 
 void PipeInstanceManagerThread::start()
 {
-	Call * myCall=new Call();
-	pipeInstance->read(myCall,sizeof(Call));
+	CallInfo myInfo;
+	pipeInstance->read(&myInfo,sizeof(CallInfo));
 	//printf("Valeur recue : %d",myInt);
 	//int choppers = myCall->getRequiredChoppers();
 	//printf("Helicos : %d",choppers);
+	Call* myCall=new Call(myInfo);
 	callCenter->addCall(myCall);
 	// Fermeture du pipe instance
 }

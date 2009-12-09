@@ -1,44 +1,43 @@
 #include "Operator.h"
+
 #include "MSThread.h"
+
+#include "CallCenter.h"
+#include "RessourceManager.h"
+#include "Call.h"
+
+#include "windows.h"
+#include <time.h>
 #include <stdio.h>
 
-// --- Classe OperatorThread ---
-class OperatorThread : public MSThread
+// --- Classe MissionRunningThread ---
+class MissionRunningThread : public MSThread
 {
 	private :
-		Operator *myOperator;
-
-	public: 
-		OperatorThread();
+		Call* call;
+	public :
+		MissionRunningThread();
 		void start();
-		void setOperator(Operator*);
+		void setCall(Call*);
 };
 
-OperatorThread::OperatorThread()
-{
+MissionRunningThread::MissionRunningThread(){
 }
 
-void OperatorThread::start()
+void MissionRunningThread::setCall(Call * c)
 {
-	//while(true)
-	//{
-		Call* call = myOperator->getCallCenter()->getNextCall();
-		myOperator->incrementCallCount();
-		call->setOperator(myOperator);
-		call->setOperatorCallCount(myOperator->getCallCount());
-		//printf("Je l'ai eu");
-		myOperator->getRessourceManager()->addCallToWaitingList(call);
-		// --- Crée le Thread de chargement des ressource au ressourceManager ---
-	//}
+	this->call=c;
 }
 
-void OperatorThread::setOperator(Operator* op)
+void MissionRunningThread::start()
 {
-	myOperator=op;
+	srand( (unsigned)time( NULL ) );
+	int time=2500+(rand()*(2000/RAND_MAX)); // entre 2500 et 4500
+	Sleep(time);
+	call->freeRessources();
 }
-// --- END ---
 
-
+// --- Operator ---
 
 Operator::Operator(int id,CallCenter* callCenter)
 {
@@ -46,13 +45,36 @@ Operator::Operator(int id,CallCenter* callCenter)
 	this->id=id;
 	this->callCenter=callCenter;
 	callCount=0;
-	OperatorThread *opThread=new OperatorThread();
-	opThread->setOperator(this);
-	opThread->run();
+	callWaitingForRessources=new MSMutex(MSMutex::START_LOCKED);
+	callAborted=false;
+	this->run();
 }
 
 Operator::~Operator()
 {
+}
+
+void Operator::start()
+{
+	while(true)
+	{
+		Call* call = callCenter->getNextCall();
+		callCount++;
+		call->setOperator(this);
+		call->setOperatorCallCount(callCount);
+		//printf("Je l'ai eu");
+		ressourceManager->addCallToWaitingList(call);
+		callWaitingForRessources->waitForUnlock(MSMutex::WAIT_INFINITE);
+		if(!callAborted)
+		{
+			MissionRunningThread* missionThread=new MissionRunningThread();
+			missionThread->setCall(call);
+			missionThread->run();
+		}
+		else
+		{
+		}
+	}
 }
 
 CallCenter* Operator::getCallCenter()
@@ -83,4 +105,16 @@ void Operator::setRessourceManager(RessourceManager* resMan)
 RessourceManager* Operator::getRessourceManager()
 {
 	return this->ressourceManager;
+}
+
+void Operator::currentCallReadyToStart()
+{
+	callAborted=false;
+	callWaitingForRessources->unlock();
+}
+
+void Operator::currentCallAborted()
+{
+	callAborted=true;
+	callWaitingForRessources->unlock();
 }

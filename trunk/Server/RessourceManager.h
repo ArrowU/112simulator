@@ -1,13 +1,12 @@
 #ifndef _RESSOURCEMANAGER_H
 #define _RESSOURCEMANAGER_H
 
-#include "Ressource.h"
 #include "MSBuffer.h"
 #include "MSThread.h"
 #include "MSMutex.h"
-#include "Call.h"
 
 class Call;
+class Ressource;
 
 class RessourceManager : public MSThread
 {
@@ -34,7 +33,7 @@ class RessourceManager : public MSThread
 		bool newCall3;
 		bool newCall0;
 
-		bool newRessource;
+		bool hasNewRessource;
 
 		//--- Méthodes ---
 	public:
@@ -42,7 +41,7 @@ class RessourceManager : public MSThread
 		~RessourceManager();
 		void start();
 		void addCallToWaitingList(Call*);
-		void  newRessource(Ressource*);
+		void releaseRessource(Ressource *);
 		
 
 		/* Options pour des points en plus:

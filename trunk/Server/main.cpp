@@ -3,9 +3,9 @@
 #include <string>
 #include <vector>
 
-#include "RessourceManager.h"
+//#include "RessourceManager.h"
 #include "CallCenter.h"
-#include "Operator.h"
+//#include "Operator.h"
 
 using namespace std;
 
@@ -19,7 +19,7 @@ void strSplit(vector<string>& vecteur, string chaine, char separateur);
 
 int main()
 {
-	printf("Starting 112 Server !\n");
+	printf("Starting 112 Server : new Version !\n");
 	// --- Parse Arguments ---
 	// --- Start Ressource Manager ---
 	// --- Start Call Center ---

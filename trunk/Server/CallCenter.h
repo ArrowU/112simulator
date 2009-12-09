@@ -1,8 +1,8 @@
 #ifndef _CALLCENTER_H
 #define _CALLCENTER_H
 
-#include "Call.h"
-#include "MSBuffer.h"
+# include "MSBuffer.h"
+# include "MSSemaphore.h"
 
 class Call;
 
