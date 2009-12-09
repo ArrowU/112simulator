@@ -25,11 +25,16 @@ class RessourceManager : public MSThread
 		MSMutex *threadSafeLock2;
 		MSMutex *threadSafeLock3;
 		MSMutex *threadSafeLock0;
-		MSMutex *threadSafeLockRessources;
+		MSMutex *threadSafeLockChopper;
+		MSMutex *threadSafeLockAmbulance;
+		MSMutex *threadSafeLockMedic;
+		MSMutex *threadSafeLockTeam;
 		bool newCall1;
 		bool newCall2;
 		bool newCall3;
 		bool newCall0;
+
+		bool newRessource;
 
 		//--- Méthodes ---
 	public:
@@ -37,7 +42,7 @@ class RessourceManager : public MSThread
 		~RessourceManager();
 		void start();
 		void addCallToWaitingList(Call*);
-		void finishedMission(Call*);
+		void  newRessource(Ressource*);
 		
 
 		/* Options pour des points en plus:
