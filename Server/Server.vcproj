@@ -218,6 +218,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\CallInfo.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Logger.h"
 				>
 			</File>

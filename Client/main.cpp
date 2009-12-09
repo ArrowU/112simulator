@@ -19,12 +19,20 @@ int main()
 		{
 			int teams = ambulances + choppers;
 			medics = medics + choppers;
-			Call *test = new Call(choppers, ambulances, medics, teams, source);
+
+			CallInfo testInfo;
+			testInfo.requiredAmbulances=ambulances;
+			testInfo.requiredChoppers=choppers;
+			testInfo.requiredMedics=medics;
+			testInfo.requiredTeams=teams;
+			testInfo.source=source;
+
+			//= new Call(choppers, ambulances, medics, teams, source);
 			cout<<"envoi ok de la source "<<source<<endl;
 
 			//envoi vers le pipe
 			MSPipeInstance* myInstance=MSPipe::connect(TEXT("\\\\.\\pipe\\mynamedpipe"));
-			myInstance->write(test,sizeof(Call));
+			myInstance->write(&testInfo,sizeof(CallInfo));
 			//myInstance->close();
 			//delete myInstance;
 		}

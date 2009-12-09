@@ -1,13 +1,20 @@
 #include "Call.h"
+
+#include "Ressource.h"
+#include "RessourceManager.h"
+#include "Operator.h"
+
 #include <stdio.h>
+
+#include "CallInfo.h"
 
 Call::~Call()
 {
 }
 
-Call::Call(int choppers, int ambulances, int medics, int teams, int source) : requiredChoppers(choppers), requiredAmbulances(ambulances), requiredMedics(medics), requiredTeams(teams)
+Call::Call(CallInfo info)
 {
-	this->source=source;
+	this->info=info;
 	ressources = new MSBuffer<Ressource>(20);
 }
 
@@ -33,52 +40,60 @@ int Call::getOperatorCallCount()
 
 void Call::setRequiredChoppers(int a)
 {
-	requiredChoppers = a;
+	info.requiredChoppers = a;
 }
 		
 int Call::getRequiredChoppers()
 {
-	return requiredChoppers;
+	return info.requiredChoppers;
 }
 		
 void Call::setRequiredAmbulances(int a)
 {
-	requiredAmbulances = a;
+	info.requiredAmbulances = a;
 }
 		
 int Call::getRequiredAmbulances()
 {
-	return requiredAmbulances;
+	return info.requiredAmbulances;
 }
 
 void Call::setRequiredMedics(int a)
 {
-	requiredMedics = a;
+	info.requiredMedics = a;
 }
 
 int Call::getRequiredMedics()
 {
-	return requiredMedics;
+	return info.requiredMedics;
 }
 		
 void Call::setRequiredTeams(int a)
 {
-	requiredTeams = a;
+	info.requiredTeams = a;
 }
 		
 int Call::getRequiredTeams()
 {
-	return requiredTeams;
+	return info.requiredTeams;
 }
 
 int Call::getSource()
 {
-	return source;
+	return info.source;
 }
 
-void Call::isImpossibleCall()
+void Call::abort()
 {
-	printf("Appel Impossible");
+	Ressource* myRes=new Ressource(Ressource::AMBULANCE,9);
+	int t =myRes->getType();
+	myOperator->currentCallAborted();
+	//printf("Appel Impossible");
+}
+
+void Call::readyToStart()
+{
+	myOperator->currentCallReadyToStart();
 }
 
 void Call::addRessource(Ressource * ressource)
@@ -90,6 +105,8 @@ void Call::freeRessources()
 {
 	while (!ressources->isEmpty())
 	{
-		ressourceManager->newRessource(ressources->getElement(MSBuffer<Ressource>::RETURN_NULL_IF_EMPTY));
+		Ressource* res=ressources->getElement(MSBuffer<Ressource>::RETURN_NULL_IF_EMPTY);
+		ressourceManager->releaseRessource(res);
+		//ressourceManager->newRessource(ressources->getElement(MSBuffer<Ressource>::RETURN_NULL_IF_EMPTY));
 	}
 }

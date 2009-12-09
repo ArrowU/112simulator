@@ -170,10 +170,6 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\Server\Call.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\CallObject.cpp"
 				>
 			</File>
@@ -188,7 +184,7 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath="..\Server\Call.h"
+				RelativePath="..\Server\CallInfo.h"
 				>
 			</File>
 			<File

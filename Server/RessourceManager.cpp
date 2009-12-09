@@ -1,4 +1,8 @@
 #include "RessourceManager.h"
+
+#include "Ressource.h"
+#include "Call.h"
+
 #include <stdio.h>
 
 
@@ -45,7 +49,7 @@ RessourceManager::RessourceManager()
 	newCall2 = false;
 	newCall3 = false;
 	newCall0 = false;
-	newRessource = false;
+	hasNewRessource = false;
 	printf("RessourceManager created... \n");
 }
 
@@ -58,22 +62,22 @@ void RessourceManager::start()
 		checkList(waitingListPrio0);
 		newCall0 = false;
 		threadSafeLock0->unlock();
-		newRessource = false;
-		if (!newCall0 && !newRessource)
+		hasNewRessource = false;
+		if (!newCall0 && !hasNewRessource)
 		{
 			threadSafeLock1->waitForUnlock(MSMutex::WAIT_INFINITE);
 			checkList(waitingListPrio1);
 			newCall1 = false;
 			threadSafeLock1->unlock();
 		}
-		if (!newCall0 && !newCall1 && !newRessource)
+		if (!newCall0 && !newCall1 && !hasNewRessource)
 		{
 			threadSafeLock2->waitForUnlock(MSMutex::WAIT_INFINITE);
 			checkList(waitingListPrio2);
 			newCall2 = false;
 			threadSafeLock2->unlock();
 		}
-		if (!newCall0 && !newCall1 && !newCall2 && !newRessource)
+		if (!newCall0 && !newCall1 && !newCall2 && !hasNewRessource)
 		{
 			threadSafeLock3->waitForUnlock(MSMutex::WAIT_INFINITE);
 			checkList(waitingListPrio3);
@@ -93,7 +97,7 @@ void RessourceManager::addCallToWaitingList(Call* call)
 
 	if (requiredChoppers > choppers->getMaxSize() || requiredAmbulances > ambulances->getMaxSize() || requiredMedics > medics->getMaxSize() || requiredTeams > teams->getMaxSize())
 	{
-		call->isImpossibleCall();
+		call->abort();
 	}
 	// si possible, encodage dans les listes d'attente
 	else
@@ -125,34 +129,38 @@ void RessourceManager::addCallToWaitingList(Call* call)
 	printf("Call checked... \n");
 }
 
-void RessourceManager::newRessource(Ressource *ressource)
+void RessourceManager::releaseRessource(Ressource *ressource)
 {
 	switch(ressource->getType())
 	{
 	case Ressource::CHOPPER:
 		threadSafeLockChopper->waitForUnlock(MSMutex::WAIT_INFINITE);
 		choppers->addElement(ressource);
-		newRessource = true;
+		hasNewRessource = true;
 		threadSafeLockChopper->unlock();
 		break;
 	case Ressource::AMBULANCE:
 		threadSafeLockAmbulance->waitForUnlock(MSMutex::WAIT_INFINITE);
-		ambumlances->addElement(ressource);
-		newRessource = true;
+		ambulances->addElement(ressource);
+		hasNewRessource = true;
 		threadSafeLockAmbulance->unlock();
 		break;
 	case Ressource::MEDIC:
 		threadSafeLockMedic->waitForUnlock(MSMutex::WAIT_INFINITE);
-		medic->addElement(ressource);
-		newRessource = true;
+		medics->addElement(ressource);
+		hasNewRessource = true;
 		threadSafeLockMedic->unlock();
 		break;
 	case Ressource::TEAM:
 		threadSafeLockTeam->waitForUnlock(MSMutex::WAIT_INFINITE);
-		team->addElement(ressource);
-		newRessource = true;
+		teams->addElement(ressource);
+		hasNewRessource = true;
 		threadSafeLockTeam->unlock();
 		break;
+	default:
+		printf("Error in RessourceManager while trying to free Ressources \n");
+		system("pause");
+
 	}
 }
 
@@ -173,6 +181,10 @@ void RessourceManager::checkList(MSBuffer<Call>* waitingList)
 		{
 			//on lance la mission
 			//waiting->addRessource...
+			// Alex te dis : quand les ressources sont ajoutées, appelles cette fonction :
+			//waiting->readyToStart();
+			// Le call va alors prévenir l'opérateur, qui va créer les threads correspondant, qui font le sleep(rand)
+			// puis libèrent les ressources, puis vont Logger l'appel;
 		}
 		else
 		{
