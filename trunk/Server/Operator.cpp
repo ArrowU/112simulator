@@ -47,7 +47,7 @@ Operator::Operator(int id,CallCenter* callCenter)
 	callCount=0;
 	callWaitingForRessources=new MSMutex(MSMutex::START_LOCKED);
 	callAborted=false;
-	this->run();
+	//this->run();
 }
 
 Operator::~Operator()
@@ -73,6 +73,7 @@ void Operator::start()
 		}
 		else
 		{
+			printf("Zut, appel Impossible");
 		}
 	}
 }

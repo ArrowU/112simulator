@@ -124,6 +124,7 @@ CallCenter::CallCenter()
 	for(int i=0;i<3;i++){
 		Operator* op=new Operator(i,this);
 		op->setRessourceManager(ressourceManager);
+		op->run();
 	}
 }
 
