@@ -19,6 +19,7 @@ class Call
 		CallInfo info;
 		Operator* myOperator;
 		MSBuffer<Ressource> *ressources;
+		int waitedTime;
 
 		//--- Méthodes ---
 	public:
@@ -43,6 +44,8 @@ class Call
 		void addRessource( Ressource *);
 		Ressource *freeRessources();
 		bool hasRessources();
+		int getWaitedTime();
+		void setWaitedTime(int);
 		
 };
 
