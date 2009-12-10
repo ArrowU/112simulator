@@ -129,39 +129,39 @@ void RessourceManager::addCallToWaitingList(Call* call)
 	printf("Call checked... \n");
 }
 
-void RessourceManager::releaseRessource(Ressource *ressource)
+void RessourceManager::releaseRessource(Call *call)
 {
-	switch(ressource->getType())
+	while (call->hasRessources())
 	{
-	case Ressource::CHOPPER:
-		threadSafeLockChopper->waitForUnlock(MSMutex::WAIT_INFINITE);
-		choppers->addElement(ressource);
-		hasNewRessource = true;
-		threadSafeLockChopper->unlock();
-		break;
-	case Ressource::AMBULANCE:
-		threadSafeLockAmbulance->waitForUnlock(MSMutex::WAIT_INFINITE);
-		ambulances->addElement(ressource);
-		hasNewRessource = true;
-		threadSafeLockAmbulance->unlock();
-		break;
-	case Ressource::MEDIC:
-		threadSafeLockMedic->waitForUnlock(MSMutex::WAIT_INFINITE);
-		medics->addElement(ressource);
-		hasNewRessource = true;
-		threadSafeLockMedic->unlock();
-		break;
-	case Ressource::TEAM:
-		threadSafeLockTeam->waitForUnlock(MSMutex::WAIT_INFINITE);
-		teams->addElement(ressource);
-		hasNewRessource = true;
-		threadSafeLockTeam->unlock();
-		break;
-	default:
-		printf("Error in RessourceManager while trying to free Ressources \n");
-		system("pause");
-
+		switch(call->freeRessources()->getType())
+		{
+		case Ressource::CHOPPER:
+			threadSafeLockChopper->waitForUnlock(MSMutex::WAIT_INFINITE);
+			choppers->addElement(ressource);
+			threadSafeLockChopper->unlock();
+			break;
+		case Ressource::AMBULANCE:
+			threadSafeLockAmbulance->waitForUnlock(MSMutex::WAIT_INFINITE);
+			ambulances->addElement(ressource);
+			threadSafeLockAmbulance->unlock();
+			break;
+		case Ressource::MEDIC:
+			threadSafeLockMedic->waitForUnlock(MSMutex::WAIT_INFINITE);
+			medics->addElement(ressource);
+			threadSafeLockMedic->unlock();
+			break;
+		case Ressource::TEAM:
+			threadSafeLockTeam->waitForUnlock(MSMutex::WAIT_INFINITE);
+			teams->addElement(ressource);
+			threadSafeLockTeam->unlock();
+			break;
+		default:
+			printf("Error in RessourceManager while trying to free Ressources \n");
+			system("pause");
+		
+		}
 	}
+	hasNewRessource = true;
 }
 
 bool RessourceManager::possibleMission(Call* call)

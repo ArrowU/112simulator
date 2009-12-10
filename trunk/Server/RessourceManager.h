@@ -41,7 +41,7 @@ class RessourceManager : public MSThread
 		~RessourceManager();
 		void start();
 		void addCallToWaitingList(Call*);
-		void releaseRessource(Ressource *);
+		void releaseRessources(Call *);
 		
 
 		/* Options pour des points en plus:

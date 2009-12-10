@@ -6,7 +6,6 @@
 
 class Operator;
 class Ressource;
-class RessourceManager;
 
 class Call
 {
@@ -20,8 +19,6 @@ class Call
 		CallInfo info;
 		Operator* myOperator;
 		MSBuffer<Ressource> *ressources;
-
-		RessourceManager *ressourceManager;
 
 		//--- Méthodes ---
 	public:
@@ -44,7 +41,8 @@ class Call
 		void readyToStart();
 		void abort();
 		void addRessource( Ressource *);
-		void freeRessources();
+		Ressource *freeRessources();
+		bool hasRessources();
 		
 };
 

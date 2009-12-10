@@ -16,6 +16,7 @@ Call::Call(CallInfo info)
 {
 	this->info=info;
 	ressources = new MSBuffer<Ressource>(20);
+
 }
 
 Call::Call()
@@ -101,12 +102,12 @@ void Call::addRessource(Ressource * ressource)
 	ressources->addElement(ressource);
 }
 
-void Call::freeRessources()
+Ressource *Call::freeRessources()
 {
-	while (!ressources->isEmpty())
-	{
-		Ressource* res=ressources->getElement(MSBuffer<Ressource>::RETURN_NULL_IF_EMPTY);
-		ressourceManager->releaseRessource(res);
-		//ressourceManager->newRessource(ressources->getElement(MSBuffer<Ressource>::RETURN_NULL_IF_EMPTY));
-	}
+	return ressources->getElement(MSBuffer<Ressource>::RETURN_NULL_IF_EMPTY);
+}
+
+bool Call::hasRessource()
+{
+	return !ressources->isEmpty();
 }
