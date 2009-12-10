@@ -84,6 +84,8 @@ void RessourceManager::start()
 			newCall3 = false;
 			threadSafeLock3->unlock();
 		}
+		//incrementation du temps
+		timeControl();
 	}
 }
 
@@ -126,6 +128,7 @@ void RessourceManager::addCallToWaitingList(Call* call)
 				break;
 		}
 	}
+	call->setWaitedTime(0);
 	printf("Call checked... \n");
 }
 
@@ -213,6 +216,69 @@ void RessourceManager::checkList(MSBuffer<Call>* waitingList)
 		{
 			// on remet l'appel dans la liste...
 			waitingList->addElement(waiting);
+		}
+	}
+}
+
+void RessourceManager::timeControl()
+{
+	//liste 1
+	for (int i = 0; i < waitingListPrio1->getCurrentSize(); i++)
+	{
+		call = waitingListPrio1->getElement();
+		call->setWaitedTime(call->getWaitedTime());
+		if (call->getWaitedTime > waitingTime)
+		{
+			threadSafeLock0->waitForUnlock(MSMutex::WAIT_INFINITE);
+			call->setWaitedTime(0);
+			waitingListPrio0->addElement(call);
+			threadSafeLock0->unlock();
+		}
+		else
+		{
+			threadSafeLock1->waitForUnlock(MSMutex::WAIT_INFINITE);
+			waitingListPrio1->addElement(call);
+			threadSafeLock1->unlock();
+		}
+	}
+
+	//liste 2
+	for (int i = 0; i < waitingListPrio2->getCurrentSize(); i++)
+	{
+		call = waitingListPrio2->getElement();
+		call->setWaitedTime(call->getWaitedTime());
+		if (call->getWaitedTime > waitingTime)
+		{
+			threadSafeLock1->waitForUnlock(MSMutex::WAIT_INFINITE);
+			call->setWaitedTime(0);
+			waitingListPrio1->addElement(call);
+			threadSafeLock1->unlock();
+		}
+		else
+		{
+			threadSafeLock2->waitForUnlock(MSMutex::WAIT_INFINITE);
+			waitingListPrio2->addElement(call);
+			threadSafeLock2->unlock();
+		}
+	}
+
+	//liste 3
+	for (int i = 0; i < waitingListPrio3->getCurrentSize(); i++)
+	{
+		call = waitingListPrio3->getElement();
+		call->setWaitedTime(call->getWaitedTime());
+		if (call->getWaitedTime > waitingTime)
+		{
+			threadSafeLock2->waitForUnlock(MSMutex::WAIT_INFINITE);
+			call->setWaitedTime(0);
+			waitingListPrio2->addElement(call);
+			threadSafeLock2->unlock();
+		}
+		else
+		{
+			threadSafeLock3->waitForUnlock(MSMutex::WAIT_INFINITE);
+			waitingListPrio3->addElement(call);
+			threadSafeLock3->unlock();
 		}
 	}
 }

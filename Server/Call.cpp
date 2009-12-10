@@ -111,3 +111,13 @@ bool Call::hasRessource()
 {
 	return !ressources->isEmpty();
 }
+
+int Call::getWaitedTime()
+{
+	return waitedTime;
+}
+
+void Call::setWaitedTime(int time)
+{
+	waitedTime = time;
+}

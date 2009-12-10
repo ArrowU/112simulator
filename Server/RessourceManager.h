@@ -11,6 +11,8 @@ class Ressource;
 class RessourceManager : public MSThread
 {
 	//--- Attributs ---
+	public:
+		static const int waitingTime = 10;
 	private:
 		MSBuffer<Ressource> *ambulances;
 		MSBuffer<Ressource> *choppers;
@@ -53,6 +55,7 @@ class RessourceManager : public MSThread
 	private:
 		bool possibleMission(Call*);
 		void checkList(MSBuffer<Call>*);
+		void timeControl();
 		
 };
 
