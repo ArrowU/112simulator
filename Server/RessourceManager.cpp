@@ -179,10 +179,33 @@ void RessourceManager::checkList(MSBuffer<Call>* waitingList)
 		Call* waiting = waitingList->getElement(MSBuffer<Call>::RETURN_NULL_IF_EMPTY);
 		if (possibleMission(waiting))
 		{
+			// on ajoute les ressources
+			threadSafeLockChopper->waitForUnlock(MSMutex::WAIT_INFINITE);
+			for (int i = 0; i < waiting->getRequiredChoppers; i++)
+			{
+				waiting->addRessource(choppers->getElement());
+			}
+			threadSafeLockChopper->unlock();
+			threadSafeLockAmbulance->waitForUnlock(MSMutex::WAIT_INFINITE);
+			for (int i = 0; i < waiting->getRequiredAmbulances; i++)
+			{
+				waiting->addRessource(ambulances->getElement());
+			}
+			threadSafeLockAmbulance->unlock();
+			threadSafeLockMedic->waitForUnlock(MSMutex::WAIT_INFINITE);
+			for (int i = 0; i < waiting->getRequiredMedics; i++)
+			{
+				waiting->addRessource(medics->getElement());
+			}
+			threadSafeLockMedic->unlock();
+			threadSafeLockTeam->waitForUnlock(MSMutex::WAIT_INFINITE);
+			for (int i = 0; i < waiting->getRequiredTeams; i++)
+			{
+				waiting->addRessource(teams->getElement());
+			}
+			threadSafeLockTeam->unlock();
 			//on lance la mission
-			//waiting->addRessource...
-			// Alex te dis : quand les ressources sont ajoutées, appelles cette fonction :
-			//waiting->readyToStart();
+			waiting->readyToStart();
 			// Le call va alors prévenir l'opérateur, qui va créer les threads correspondant, qui font le sleep(rand)
 			// puis libèrent les ressources, puis vont Logger l'appel;
 		}
