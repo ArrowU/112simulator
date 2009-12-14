@@ -2,21 +2,45 @@
 #define _LOGGER_H
 
 #include "Call.h"
+#include <vector>
 
-class Logger
+class Logger 
+{
+	public :
+		Logger();
+		virtual void log(Call*);
+};
+
+class LogManager : public Logger
 {
 	//--- Attributs ---
 private:
-	Logger instance
+	static LogManager* instance;
+	//LogManager* LogManager::instance=NULL;
+	std::vector<Logger*>* loggerList;
 
 	//--- Méthodes ---
 public:
-	Logger();
-	~Logger();
-	Logger getInstance();
-	void log(Call);
+	LogManager();
+	~LogManager();
+	static LogManager* getInstance();
+	void log(Call*);
 private:
 
 };
+
+class FileSystemLogger : public Logger
+{
+	//--- Attributs ---
+private:
+
+	//--- Méthodes ---
+public:
+	FileSystemLogger();
+	~FileSystemLogger();
+	void log(Call*);
+private:
+};
+
 
 #endif

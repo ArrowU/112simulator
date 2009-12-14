@@ -27,7 +27,7 @@ class Call
 		Call();
 		~Call();
 		void setOperator(Operator*);
-		Operator* getOperatorId();
+		Operator* getOperator();
 		void setOperatorCallCount(int);
 		int getOperatorCallCount();
 		void setRequiredChoppers(int);
@@ -42,6 +42,7 @@ class Call
 		void readyToStart();
 		void abort();
 		void addRessource( Ressource *);
+		MSBuffer<Ressource>* getUsedRessources();
 		Ressource *freeRessources();
 		bool hasRessources();
 		int getWaitedTime();

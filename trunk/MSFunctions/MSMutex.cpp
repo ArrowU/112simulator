@@ -66,7 +66,7 @@ bool MSMutex::waitForUnlock(int timeout=-1)
 
 void MSMutex::unlock()
 {
-	bool bResult = ReleaseSemaphore(
+	BOOL bResult = ReleaseSemaphore(
 		winSemaphore,  // handle to semaphore
         1,            // increase count by one
         NULL );       // not interested in previous count

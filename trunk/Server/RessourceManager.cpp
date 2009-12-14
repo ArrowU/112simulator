@@ -129,34 +129,35 @@ void RessourceManager::addCallToWaitingList(Call* call)
 		}
 	}
 	call->setWaitedTime(0);
-	printf("Call checked... \n");
+	//printf("Call checked... \n");
 }
 
-void RessourceManager::releaseRessource(Call *call)
+void RessourceManager::releaseRessources(Call *call)
 {
 	while (call->hasRessources())
 	{
-		switch(call->freeRessources()->getType())
+		Ressource *ressource = call->freeRessources();
+		switch(ressource->getType())
 		{
 		case Ressource::CHOPPER:
-			threadSafeLockChopper->waitForUnlock(MSMutex::WAIT_INFINITE);
+			//threadSafeLockChopper->waitForUnlock(MSMutex::WAIT_INFINITE);
 			choppers->addElement(ressource);
-			threadSafeLockChopper->unlock();
+			//threadSafeLockChopper->unlock();
 			break;
 		case Ressource::AMBULANCE:
-			threadSafeLockAmbulance->waitForUnlock(MSMutex::WAIT_INFINITE);
+			//threadSafeLockAmbulance->waitForUnlock(MSMutex::WAIT_INFINITE);
 			ambulances->addElement(ressource);
-			threadSafeLockAmbulance->unlock();
+			//threadSafeLockAmbulance->unlock();
 			break;
 		case Ressource::MEDIC:
-			threadSafeLockMedic->waitForUnlock(MSMutex::WAIT_INFINITE);
+			//threadSafeLockMedic->waitForUnlock(MSMutex::WAIT_INFINITE);
 			medics->addElement(ressource);
-			threadSafeLockMedic->unlock();
+			//threadSafeLockMedic->unlock();
 			break;
 		case Ressource::TEAM:
-			threadSafeLockTeam->waitForUnlock(MSMutex::WAIT_INFINITE);
+			//threadSafeLockTeam->waitForUnlock(MSMutex::WAIT_INFINITE);
 			teams->addElement(ressource);
-			threadSafeLockTeam->unlock();
+			//threadSafeLockTeam->unlock();
 			break;
 		default:
 			printf("Error in RessourceManager while trying to free Ressources \n");
@@ -180,33 +181,34 @@ void RessourceManager::checkList(MSBuffer<Call>* waitingList)
 	for (int i = 0; i < waitingList->getCurrentSize(); i++)
 	{
 		Call* waiting = waitingList->getElement(MSBuffer<Call>::RETURN_NULL_IF_EMPTY);
+		if(waiting==NULL) system("pause");
 		if (possibleMission(waiting))
 		{
 			// on ajoute les ressources
-			threadSafeLockChopper->waitForUnlock(MSMutex::WAIT_INFINITE);
-			for (int i = 0; i < waiting->getRequiredChoppers; i++)
+			//threadSafeLockChopper->waitForUnlock(MSMutex::WAIT_INFINITE);
+			for (int i = 0; i < waiting->getRequiredChoppers(); i++)
 			{
-				waiting->addRessource(choppers->getElement());
+				waiting->addRessource(choppers->getElement(MSBuffer<Ressource>::WAIT_FOR_ELEMENT));
 			}
-			threadSafeLockChopper->unlock();
-			threadSafeLockAmbulance->waitForUnlock(MSMutex::WAIT_INFINITE);
-			for (int i = 0; i < waiting->getRequiredAmbulances; i++)
+			//threadSafeLockChopper->unlock();
+			//threadSafeLockAmbulance->waitForUnlock(MSMutex::WAIT_INFINITE);
+			for (int i = 0; i < waiting->getRequiredAmbulances(); i++)
 			{
-				waiting->addRessource(ambulances->getElement());
+				waiting->addRessource(ambulances->getElement(MSBuffer<Ressource>::WAIT_FOR_ELEMENT));
 			}
-			threadSafeLockAmbulance->unlock();
-			threadSafeLockMedic->waitForUnlock(MSMutex::WAIT_INFINITE);
-			for (int i = 0; i < waiting->getRequiredMedics; i++)
+			//threadSafeLockAmbulance->unlock();
+			//threadSafeLockMedic->waitForUnlock(MSMutex::WAIT_INFINITE);
+			for (int i = 0; i < waiting->getRequiredMedics(); i++)
 			{
-				waiting->addRessource(medics->getElement());
+				waiting->addRessource(medics->getElement(MSBuffer<Ressource>::WAIT_FOR_ELEMENT));
 			}
-			threadSafeLockMedic->unlock();
-			threadSafeLockTeam->waitForUnlock(MSMutex::WAIT_INFINITE);
-			for (int i = 0; i < waiting->getRequiredTeams; i++)
+			//threadSafeLockMedic->unlock();
+			//threadSafeLockTeam->waitForUnlock(MSMutex::WAIT_INFINITE);
+			for (int i = 0; i < waiting->getRequiredTeams(); i++)
 			{
-				waiting->addRessource(teams->getElement());
+				waiting->addRessource(teams->getElement(MSBuffer<Ressource>::WAIT_FOR_ELEMENT));
 			}
-			threadSafeLockTeam->unlock();
+			//threadSafeLockTeam->unlock();
 			//on lance la mission
 			waiting->readyToStart();
 			// Le call va alors prévenir l'opérateur, qui va créer les threads correspondant, qui font le sleep(rand)
@@ -222,12 +224,13 @@ void RessourceManager::checkList(MSBuffer<Call>* waitingList)
 
 void RessourceManager::timeControl()
 {
+	Call* call;
 	//liste 1
 	for (int i = 0; i < waitingListPrio1->getCurrentSize(); i++)
 	{
-		call = waitingListPrio1->getElement();
+		call = waitingListPrio1->getElement(MSBuffer<Ressource>::WAIT_FOR_ELEMENT);
 		call->setWaitedTime(call->getWaitedTime());
-		if (call->getWaitedTime > waitingTime)
+		if (call->getWaitedTime() > waitingTime)
 		{
 			threadSafeLock0->waitForUnlock(MSMutex::WAIT_INFINITE);
 			call->setWaitedTime(0);
@@ -245,9 +248,9 @@ void RessourceManager::timeControl()
 	//liste 2
 	for (int i = 0; i < waitingListPrio2->getCurrentSize(); i++)
 	{
-		call = waitingListPrio2->getElement();
+		call = waitingListPrio2->getElement(MSBuffer<Ressource>::WAIT_FOR_ELEMENT);
 		call->setWaitedTime(call->getWaitedTime());
-		if (call->getWaitedTime > waitingTime)
+		if (call->getWaitedTime() > waitingTime)
 		{
 			threadSafeLock1->waitForUnlock(MSMutex::WAIT_INFINITE);
 			call->setWaitedTime(0);
@@ -265,9 +268,9 @@ void RessourceManager::timeControl()
 	//liste 3
 	for (int i = 0; i < waitingListPrio3->getCurrentSize(); i++)
 	{
-		call = waitingListPrio3->getElement();
+		call = waitingListPrio3->getElement(MSBuffer<Ressource>::WAIT_FOR_ELEMENT);
 		call->setWaitedTime(call->getWaitedTime());
-		if (call->getWaitedTime > waitingTime)
+		if (call->getWaitedTime() > waitingTime)
 		{
 			threadSafeLock2->waitForUnlock(MSMutex::WAIT_INFINITE);
 			call->setWaitedTime(0);

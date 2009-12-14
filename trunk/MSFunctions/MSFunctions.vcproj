@@ -153,6 +153,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\MSFileSystem.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\MSMutex.cpp"
 				>
 			</File>
@@ -176,6 +180,10 @@
 			>
 			<File
 				RelativePath=".\MSBuffer.h"
+				>
+			</File>
+			<File
+				RelativePath=".\MSFileSystem.h"
 				>
 			</File>
 			<File

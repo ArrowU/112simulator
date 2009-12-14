@@ -59,7 +59,7 @@ bool MSSemaphore::waitForUnlock(int timeout=-1)
 void MSSemaphore::unlock(int ressourceCount=1)
 {
 	DWORD dwRessourceCount = static_cast<DWORD>(ressourceCount);
-	bool bResult = ReleaseSemaphore(
+	BOOL bResult = ReleaseSemaphore(
 		winSemaphore,  // handle to semaphore
         dwRessourceCount,            // increase count by ressourceCount
         NULL );       // not interested in previous count
