@@ -5,6 +5,7 @@
 #include "CallCenter.h"
 #include "RessourceManager.h"
 #include "Call.h"
+#include "Logger.h"
 
 #include "windows.h"
 #include <time.h>
@@ -15,10 +16,12 @@ class MissionRunningThread : public MSThread
 {
 	private :
 		Call* call;
+		RessourceManager* ressourceManager;
 	public :
 		MissionRunningThread();
 		void start();
 		void setCall(Call*);
+		void setRessourceManager(RessourceManager*);
 };
 
 MissionRunningThread::MissionRunningThread(){
@@ -29,12 +32,20 @@ void MissionRunningThread::setCall(Call * c)
 	this->call=c;
 }
 
+void MissionRunningThread::setRessourceManager(RessourceManager* ressourceManager)
+{
+	this->ressourceManager=ressourceManager;
+}
+
 void MissionRunningThread::start()
 {
+	
 	srand( (unsigned)time( NULL ) );
-	int time=2500+(rand()*(2000/RAND_MAX)); // entre 2500 et 4500
+	int time=2500+(rand()%2000); // entre 2500 et 4500
+	//printf("Mission running : sleep time is %d",time);
 	Sleep(time);
-	call->freeRessources();
+	LogManager::getInstance()->log(call);
+	ressourceManager->releaseRessources(call);
 }
 
 // --- Operator ---
@@ -69,6 +80,7 @@ void Operator::start()
 		{
 			MissionRunningThread* missionThread=new MissionRunningThread();
 			missionThread->setCall(call);
+			missionThread->setRessourceManager(ressourceManager);
 			missionThread->run();
 		}
 		else

@@ -73,7 +73,7 @@ bool MSThread::waitForFinish(int timeout=-1)
 	if(timeout<0) dwTimeout=INFINITE;
 	else dwTimeout=timeout;
 
-	bool bResult;
+	BOOL bResult;
 	if(T!=NULL)
 	{
 		bResult=WaitForSingleObject( T, dwTimeout);
@@ -84,5 +84,5 @@ bool MSThread::waitForFinish(int timeout=-1)
 		bResult=true;
 	}
 
-	return bResult;
+	return bResult!=0;
 }

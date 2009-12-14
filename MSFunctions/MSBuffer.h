@@ -30,6 +30,7 @@ public:
 	~MSBuffer();
 	void addElement(T*);
 	T* getElement(int);
+	T* at(int);
 	int getCurrentSize();
 	int getMaxSize();
 	bool isEmpty();
@@ -141,6 +142,17 @@ T* MSBuffer<T>::getElement(int mode=WAIT_FOR_ELEMENT)
 		threadSafeLock->unlock();
 		return element;
 	}
+	return NULL;
+}
+
+template <class T>
+T* MSBuffer<T>::at(int index)
+{
+	if(index<getCurrentSize())
+	{
+		return queue[(readIndex+index)%maxSize];
+	}
+	else return NULL;
 }
 
 template <class T> 

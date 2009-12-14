@@ -28,6 +28,11 @@ void Call::setOperator(Operator* op)
 	this->myOperator=op;
 }
 
+Operator* Call::getOperator()
+{
+	return myOperator;
+}
+
 
 void Call::setOperatorCallCount(int a)
 {
@@ -102,12 +107,17 @@ void Call::addRessource(Ressource * ressource)
 	ressources->addElement(ressource);
 }
 
-Ressource *Call::freeRessources()
+MSBuffer<Ressource>* Call::getUsedRessources()
+{
+	return ressources;
+}
+
+Ressource* Call::freeRessources()
 {
 	return ressources->getElement(MSBuffer<Ressource>::RETURN_NULL_IF_EMPTY);
 }
 
-bool Call::hasRessource()
+bool Call::hasRessources()
 {
 	return !ressources->isEmpty();
 }
